@@ -81,9 +81,6 @@ public class DataInitializer {
                         .imageUrl("https://via.placeholder.com/400x300.png?text=España+2010")
                         .build();
                 // Set simple recommendations: p1 recommends p2 and p3, etc.
-                p1.setRecommendedProducts(Set.of(p2, p3));
-                p2.setRecommendedProducts(Set.of(p1));
-                p3.setRecommendedProducts(Set.of(p1));
                 productRepository.saveAll(List.of(p1, p2, p3));
             }
         };
