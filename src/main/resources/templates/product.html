@@ -5,22 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RetroGoal - Producto</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">RetroGoal</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <!-- Brand name with translation -->
+        <a class="navbar-brand" href="/" th:text="#{navbar.retogoal}">RetroGoal</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="/catalog">Catálogo</a></li>
-                <li class="nav-item"><a class="nav-link" href="/cart">Carrito</a></li>
+                <li class="nav-item"><a class="nav-link" href="/catalog" th:text="#{navbar.catalogo}">Catálogo</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/cart}" th:text="#{navbar.carrito} + ' (' + ${cartItemCount} + ')'">Carrito</a></li>
+                <li class="nav-item"><a class="nav-link" href="/map" th:text="#{navbar.mapa}">Mapa</a></li>
+                <li class="nav-item"><a class="nav-link" href="/checkout" th:text="#{navbar.pago}">Pago</a></li>
             </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="/login">Entrar</a></li>
-                <li class="nav-item"><a class="nav-link" href="/register">Registrarse</a></li>
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item dropdown" th:if="${currentUserEmail != null}">
+                    <a class="nav-link dropdown-toggle" href="#" id="userMenuProduct" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${currentUserEmail}">Cuenta</a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuProduct">
+                        <li><a class="dropdown-item" href="/cart" th:text="#{navbar.ver_carrito}">Ver carrito</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/logout" th:text="#{navbar.cerrar_sesion}">Cerrar sesión</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item" th:if="${currentUserEmail == null}"><a class="nav-link" href="/login" th:text="#{navbar.entrar}">Entrar</a></li>
+                <li class="nav-item" th:if="${currentUserEmail == null}"><a class="nav-link" href="/register" th:text="#{navbar.registrarse}">Registrarse</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="languageMenuProduct" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="#{navbar.idioma}">Idioma</a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageMenuProduct">
+                        <li><a class="dropdown-item" href="?lang=es" th:text="#{navbar.castellano}">Castellano</a></li>
+                        <li><a class="dropdown-item" href="?lang=en" th:text="#{navbar.ingles}">English</a></li>
+                        <li><a class="dropdown-item" href="?lang=fr" th:text="#{navbar.frances}">Français</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
@@ -29,17 +51,48 @@
 <div class="container mt-4" th:object="${product}">
     <div class="row">
         <div class="col-md-6">
-            <img th:src="*{imageUrl}" class="img-fluid" alt="Imagen del producto">
+            <!-- Fallback local image for the product -->
+            <img th:src="*{imageUrl}" id="fallbackImage" class="img-fluid mb-3" alt="Imagen del producto">
+            <!-- AI generated image will be injected here; hidden until loaded -->
+            <img id="aiImage" class="img-fluid mb-3" style="display:none;" alt="Imagen generada por IA">
         </div>
         <div class="col-md-6">
             <h2 th:text="*{name}">Nombre</h2>
             <p th:text="*{description}">Descripción del producto</p>
             <p><strong>Equipo:</strong> <span th:text="*{team}">Equipo</span></p>
             <p><strong>Temporada/Era:</strong> <span th:text="*{era}">Era</span></p>
-            <p><strong>Talla:</strong> <span th:text="*{size}">M</span></p>
-            <p><strong>Precio:</strong> <span th:text="*{price}">0.00</span> €</p>
+            <!-- Dynamic price display -->
+            <p><strong>Precio:</strong> <span id="priceDisplay" th:text="*{price}">0.00</span> €</p>
             <form th:action="@{/cart/add}" method="post" class="mb-3">
                 <input type="hidden" name="productId" th:value="*{id}"/>
+                <div class="mb-2">
+                    <label for="sizeSelect" class="form-label">Talla</label>
+                    <select id="sizeSelect" name="size" class="form-select" style="max-width: 200px;">
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Versión</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="version" id="versionFan" value="Fan" checked>
+                        <label class="form-check-label" for="versionFan">Fan</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="version" id="versionPlayer" value="Player">
+                        <label class="form-check-label" for="versionPlayer">Player (+5 €)</label>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <label for="customName" class="form-label">Nombre personalizado (opcional)</label>
+                    <input id="customName" type="text" name="customName" class="form-control" pattern="[A-Za-zÀ-ÿ\s]*">
+                </div>
+                <div class="mb-3">
+                    <label for="customNumber" class="form-label">Dorsal (opcional)</label>
+                    <input id="customNumber" type="number" name="customNumber" class="form-control" min="0" max="99">
+                </div>
                 <div class="input-group mb-3" style="max-width: 200px;">
                     <span class="input-group-text">Cantidad</span>
                     <input type="number" name="quantity" class="form-control" min="1" value="1">
@@ -63,7 +116,52 @@
         </div>
     </div>
 </div>
-
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    // Dynamically update the displayed price based on the selected version.
+    const basePrice = /*[[${product.price}]]*/ 0;
+    const priceDisplay = document.getElementById('priceDisplay');
+    const versionRadios = document.querySelectorAll('input[name="version"]');
+    function updatePrice() {
+        const isPlayer = document.getElementById('versionPlayer').checked;
+        const finalPrice = isPlayer ? basePrice + 5 : basePrice;
+        priceDisplay.textContent = finalPrice.toFixed(2);
+    }
+    versionRadios.forEach(el => el.addEventListener('change', updatePrice));
+    // Initialise on page load
+    updatePrice();
+    /*]]>*/
+</script>
+<!-- Include Puter AI library for generating jersey images -->
+<script src="https://js.puter.com/v2/"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    // Generate an AI image of the shirt using Puter.js based on team and era.
+    (async function() {
+        try {
+            if (window.puter && puter.ai) {
+                const team = /*[[${product.team}]]*/ '';
+                const era = /*[[${product.era}]]*/ '';
+                // Use a more descriptive prompt to generate realistic football kit images
+                const prompt = `football jersey ${team} ${era} season home kit, front view, photorealistic, plain white background`;
+                // Show a loading indicator by dimming the fallback image
+                const fallback = document.getElementById('fallbackImage');
+                const aiImg = document.getElementById('aiImage');
+                // Call the AI API
+                const imageUrl = await puter.ai.txt2img(prompt);
+                if (imageUrl) {
+                    aiImg.src = imageUrl;
+                    aiImg.style.display = 'block';
+                    // Hide fallback image once AI image loads
+                    fallback.style.display = 'none';
+                }
+            }
+        } catch (err) {
+            console.error('Error generating AI image', err);
+        }
+    })();
+    /*]]>*/
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

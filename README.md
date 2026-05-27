@@ -18,7 +18,7 @@ La aplicación incluye las funcionalidades esenciales descritas en el pliego de 
 | Buscador                   | Búsqueda parcial por nombre (ignora mayúsculas/minúsculas).                                        |
 | Página de producto         | Ficha de producto con imagen, descripción, precio, talla y sugerencias de productos relacionados. |
 | Carrito                    | Carrito en sesión: añadir productos, modificar cantidades y eliminar artículos.                   |
-| Checkout                   | Flujo de compra con dirección de envío; al confirmar se genera un pedido y se limpia el carrito.  |
+| Checkout y pago            | Flujo de compra con dirección de envío y redirección segura a Stripe Checkout.                  |
 | Gestión de pedidos         | Los usuarios pueden revisar el resumen al finalizar la compra; los administradores pueden cambiar el estado de los pedidos. |
 | CRUD de productos          | Panel de administración con altas, bajas y modificaciones de productos.                           |
 | Gestión de pedidos (admin) | Listado de pedidos con posibilidad de modificar su estado (PENDING, PAID, SHIPPED, COMPLETED, CANCELLED). |
@@ -120,22 +120,38 @@ retrogoal/
 
 ## Personalización y ampliación
 
-- **Pasarela de pagos:** la integración con Stripe está preparada a nivel de dependencias. Para habilitarla
-  se deben obtener las claves públicas y privadas en la consola de Stripe e indicarlas como variables de
-  entorno (`STRIPE_SECRET_KEY` y `STRIPE_PUBLISHABLE_KEY`). Después, sustituye la lógica de pago
-  ficticia en `CheckoutController` por la creación de un `PaymentIntent` y el uso de Stripe Checkout o
-  Stripe Elements.
-- **Base de datos:** para usar MySQL en lugar de H2, actualiza las propiedades `spring.datasource.*` en
-  `application.properties` y añade tus credenciales. Ajusta también `spring.jpa.hibernate.ddl-auto` a
-  `update` o `validate` según tus necesidades.
-- **PWA:** puedes convertir la aplicación en una PWA añadiendo un `manifest.json` y un `service-worker.js` en
-  la carpeta `static`. Luego enlaza el manifiesto en las plantillas.
-- **Recomendaciones avanzadas:** actualmente se muestran recomendaciones básicas basadas en relaciones
-  manuales. Puedes implementar algoritmos de filtrado colaborativo utilizando el historial de compras.
-- **Cupones y fidelización:** la arquitectura permite añadir nuevas entidades para gestionar cupones,
-  descuentos y sistemas de puntos.
+### Stripe Checkout
+
+El proyecto incluye una integración básica con Stripe Checkout. Al confirmar el checkout, se crea un pedido en estado `PENDING` y el usuario es redirigido a la página segura de Stripe. Cuando Stripe devuelve al usuario a `/checkout/success`, el pedido se marca como `PAID` si el pago aparece como `paid`.
+
+Configura estas variables de entorno antes de ejecutar el proyecto:
+
+```bash
+STRIPE_SECRET_KEY=sk_test_tu_clave_secreta
+STRIPE_PUBLISHABLE_KEY=pk_test_tu_clave_publicable
+APP_BASE_URL=http://localhost:8080
+```
+
+Para pruebas puedes usar las tarjetas de test de Stripe. En producción, cambia las claves de test por claves live y configura `APP_BASE_URL` con el dominio real de la aplicación.
+
+### Base de datos
+
+Para usar MySQL en lugar de H2, actualiza las propiedades `spring.datasource.*` en
+`application.properties` y añade tus credenciales. Ajusta también `spring.jpa.hibernate.ddl-auto` a
+`update` o `validate` según tus necesidades.
+
+### Google Maps
+
+La página `/map` usa Leaflet y OpenStreetMap. Si quieres sustituirla por Google Maps, cambia la plantilla
+`src/main/resources/templates/map.html` y carga la Maps JavaScript API con tu clave de Google Cloud.
+
+### PWA
+
+Puedes convertir la aplicación en una PWA añadiendo un `manifest.json` y un `service-worker.js` en
+la carpeta `static`. Luego enlaza el manifiesto en las plantillas.
 
 ## Cumplimiento legal
+
 
 Se han incorporado las medidas básicas de seguridad (cifrado de contraseñas, rutas protegidas) y el proyecto
 está preparado para incluir textos legales obligatorios (política de cookies, privacidad) mediante

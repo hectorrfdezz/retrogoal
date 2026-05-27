@@ -21,7 +21,20 @@ public class CartController {
 
     @GetMapping
     public String viewCart(Model model) {
+        // Populate cart items
         model.addAttribute("cartItems", cartService.getItems());
+        // Calculate the cart subtotal and shipping to display in the cart summary
+        java.math.BigDecimal cartTotal = java.math.BigDecimal.ZERO;
+        for (java.util.Map.Entry<com.retrogoal.retrogoal.model.Product, Integer> entry : cartService.getItems().entrySet()) {
+            // price * quantity for each item
+            java.math.BigDecimal lineTotal = entry.getKey().getPrice().multiply(java.math.BigDecimal.valueOf(entry.getValue()));
+            cartTotal = cartTotal.add(lineTotal);
+        }
+        // Flat shipping cost; adjust as necessary
+        java.math.BigDecimal shipping = new java.math.BigDecimal("5.00");
+        model.addAttribute("cartTotal", cartTotal);
+        model.addAttribute("shipping", shipping);
+        model.addAttribute("finalTotal", cartTotal.add(shipping));
         return "cart";
     }
 

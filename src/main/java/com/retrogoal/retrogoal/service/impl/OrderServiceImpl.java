@@ -23,13 +23,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Order createOrder(User user, Map<Product, Integer> cartItems, String shippingAddress, String paymentIntentId) {
+    public Order createOrder(User user, Map<Product, Integer> cartItems, String shippingAddress) {
         Order order = new Order();
         order.setUser(user);
         order.setOrderDate(LocalDateTime.now());
         order.setStatus(OrderStatus.PENDING);
         order.setShippingAddress(shippingAddress);
-        order.setPaymentIntentId(paymentIntentId);
 
         List<OrderItem> items = new ArrayList<>();
         BigDecimal total = BigDecimal.ZERO;

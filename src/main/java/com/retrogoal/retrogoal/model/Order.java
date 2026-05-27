@@ -57,9 +57,4 @@ public class Order {
      */
     private String shippingAddress;
 
-    /**
-     * Optional Stripe payment intent ID (if paying via Stripe). This can be used
-     * to reconcile payments.
-     */
-    private String paymentIntentId;
 }

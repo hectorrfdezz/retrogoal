@@ -58,7 +58,7 @@ public class DataInitializer {
                         .size("M")
                         .price(new BigDecimal("59.99"))
                         .stock(10)
-                        .imageUrl("https://via.placeholder.com/400x300.png?text=Barca+1999")
+                        .imageUrl("/images/barca1999.png")
                         .build();
                 Product p2 = Product.builder()
                         .name("Camiseta Real Madrid 2024")
@@ -68,7 +68,7 @@ public class DataInitializer {
                         .size("L")
                         .price(new BigDecimal("89.99"))
                         .stock(15)
-                        .imageUrl("https://via.placeholder.com/400x300.png?text=Real+Madrid+2024")
+                        .imageUrl("/images/real_madrid_2024.png")
                         .build();
                 Product p3 = Product.builder()
                         .name("Camiseta Selección España 2010")
@@ -78,7 +78,7 @@ public class DataInitializer {
                         .size("XL")
                         .price(new BigDecimal("69.99"))
                         .stock(8)
-                        .imageUrl("https://via.placeholder.com/400x300.png?text=España+2010")
+                        .imageUrl("/images/espana2010.png")
                         .build();
                 // Set simple recommendations: p1 recommends p2 and p3, etc.
                 productRepository.saveAll(List.of(p1, p2, p3));
