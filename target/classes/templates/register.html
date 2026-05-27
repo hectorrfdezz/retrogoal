@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RetroGoal - Checkout</title>
+    <title>RetroGoal - Registro</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <!-- Custom styles -->
     <link rel="stylesheet" href="/css/style.css">
@@ -26,8 +26,8 @@
             </ul>
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item dropdown" th:if="${currentUserEmail != null}">
-                    <a class="nav-link dropdown-toggle" href="#" id="userMenuCheckout" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${currentUserEmail}">Cuenta</a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuCheckout">
+                    <a class="nav-link dropdown-toggle" href="#" id="userMenuRegister" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${currentUserEmail}">Cuenta</a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuRegister">
                         <li><a class="dropdown-item" href="/cart" th:text="#{navbar.ver_carrito}">Ver carrito</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="/logout" th:text="#{navbar.cerrar_sesion}">Cerrar sesión</a></li>
@@ -36,8 +36,8 @@
                 <li class="nav-item" th:if="${currentUserEmail == null}"><a class="nav-link" href="/login" th:text="#{navbar.entrar}">Entrar</a></li>
                 <li class="nav-item" th:if="${currentUserEmail == null}"><a class="nav-link" href="/register" th:text="#{navbar.registrarse}">Registrarse</a></li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="languageMenuCheckout" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="#{navbar.idioma}">Idioma</a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageMenuCheckout">
+                    <a class="nav-link dropdown-toggle" href="#" id="languageMenuRegister" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="#{navbar.idioma}">Idioma</a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageMenuRegister">
                         <li><a class="dropdown-item" href="?lang=es" th:text="#{navbar.castellano}">Castellano</a></li>
                         <li><a class="dropdown-item" href="?lang=en" th:text="#{navbar.ingles}">English</a></li>
                         <li><a class="dropdown-item" href="?lang=fr" th:text="#{navbar.frances}">Français</a></li>
@@ -47,37 +47,33 @@
         </div>
     </div>
 </nav>
-
-<div class="container mt-4">
-    <h1>Checkout</h1>
-    <div class="alert alert-danger" th:if="${error}" th:text="${error}">Error</div>
-    <div th:if="${#maps.isEmpty(cartItems)}">
-        <p>No hay artículos en el carrito.</p>
-    </div>
-    <div th:if="${!#maps.isEmpty(cartItems)}">
-        <h3>Resumen del pedido</h3>
-        <table class="table table-bordered">
-            <thead>
-            <tr><th>Producto</th><th>Cantidad</th><th>Precio unidad</th><th>Total</th></tr>
-            </thead>
-            <tbody>
-            <tr th:each="entry : ${cartItems}">
-                <td th:text="${entry.key.name}">Producto</td>
-                <td th:text="${entry.value}">1</td>
-                <td th:text="${entry.key.price}">0.00</td>
-                <td th:text="${lineTotals[entry.key.id]}">0.00</td>
-            </tr>
-            </tbody>
-        </table>
-        <form method="post" th:action="@{/checkout}">
-            <div class="mb-3">
-                <label for="address" class="form-label">Dirección de envío</label>
-                <textarea id="address" name="shippingAddress" class="form-control" required></textarea>
-            </div>
-            <p class="text-muted">Al continuar serás redirigido a Stripe para completar el pago de forma segura.</p>
-            <button type="submit" class="btn btn-success">Pagar con Stripe</button>
-        </form>
-    </div>
+<div class="container mt-5" style="max-width: 500px;">
+    <h2 class="text-center">Registro</h2>
+    <form th:action="@{/register}" method="post" th:object="${user}">
+        <div class="mb-3">
+            <label for="name" class="form-label">Nombre completo</label>
+            <input type="text" id="name" th:field="*{name}" class="form-control" required>
+            <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Correo electrónico</label>
+            <input type="email" id="email" th:field="*{email}" class="form-control" required>
+            <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" id="password" th:field="*{password}" class="form-control" required>
+            <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Confirmar contraseña</label>
+            <input type="password" id="confirmPassword" th:field="*{confirmPassword}" class="form-control" required>
+            <div class="text-danger" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
+        </div>
+        <div class="alert alert-danger" th:if="${registrationError}" th:text="${registrationError}"></div>
+        <button type="submit" class="btn btn-primary w-100">Registrarse</button>
+    </form>
+    <p class="mt-3 text-center">¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

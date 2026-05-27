@@ -8,6 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Handles shopping cart related actions.
  */
@@ -21,17 +25,26 @@ public class CartController {
 
     @GetMapping
     public String viewCart(Model model) {
-        // Populate cart items
-        model.addAttribute("cartItems", cartService.getItems());
-        // Calculate the cart subtotal and shipping to display in the cart summary
-        java.math.BigDecimal cartTotal = java.math.BigDecimal.ZERO;
-        for (java.util.Map.Entry<com.retrogoal.retrogoal.model.Product, Integer> entry : cartService.getItems().entrySet()) {
-            // price * quantity for each item
-            java.math.BigDecimal lineTotal = entry.getKey().getPrice().multiply(java.math.BigDecimal.valueOf(entry.getValue()));
+        Map<Product, Integer> items = cartService.getItems();
+        Map<Long, BigDecimal> lineTotals = new HashMap<>();
+        BigDecimal cartTotal = BigDecimal.ZERO;
+
+        for (Map.Entry<Product, Integer> entry : items.entrySet()) {
+            Product product = entry.getKey();
+            Integer quantity = entry.getValue();
+
+            if (product == null || product.getId() == null || product.getPrice() == null || quantity == null) {
+                continue;
+            }
+
+            BigDecimal lineTotal = product.getPrice().multiply(BigDecimal.valueOf(quantity.longValue()));
+            lineTotals.put(product.getId(), lineTotal);
             cartTotal = cartTotal.add(lineTotal);
         }
-        // Flat shipping cost; adjust as necessary
-        java.math.BigDecimal shipping = new java.math.BigDecimal("5.00");
+
+        BigDecimal shipping = new BigDecimal("5.00");
+        model.addAttribute("cartItems", items);
+        model.addAttribute("lineTotals", lineTotals);
         model.addAttribute("cartTotal", cartTotal);
         model.addAttribute("shipping", shipping);
         model.addAttribute("finalTotal", cartTotal.add(shipping));

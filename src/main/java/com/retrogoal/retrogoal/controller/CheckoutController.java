@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -35,7 +37,7 @@ public class CheckoutController {
 
     @GetMapping
     public String showCheckout(Model model) {
-        model.addAttribute("cartItems", cartService.getItems());
+        addCartModelAttributes(model, cartService.getItems());
         return "checkout";
     }
 
@@ -63,7 +65,7 @@ public class CheckoutController {
 
         if (items.isEmpty()) {
             model.addAttribute("error", "El carrito está vacío.");
-            model.addAttribute("cartItems", items);
+            addCartModelAttributes(model, items);
             return "checkout";
         }
 
@@ -73,7 +75,7 @@ public class CheckoutController {
             return "redirect:" + session.getUrl();
         } catch (Exception e) {
             model.addAttribute("error", "No se pudo iniciar el pago con Stripe. Revisa las variables STRIPE_SECRET_KEY y APP_BASE_URL.");
-            model.addAttribute("cartItems", items);
+            addCartModelAttributes(model, items);
             return "checkout";
         }
     }
@@ -86,7 +88,7 @@ public class CheckoutController {
 
             if (orderIdValue == null || orderIdValue.isBlank()) {
                 model.addAttribute("error", "No se ha podido localizar el pedido asociado al pago.");
-                model.addAttribute("cartItems", cartService.getItems());
+                addCartModelAttributes(model, cartService.getItems());
                 return "checkout";
             }
 
@@ -108,7 +110,7 @@ public class CheckoutController {
             return "orderConfirmation";
         } catch (Exception e) {
             model.addAttribute("error", "El pago se ha completado, pero no se pudo confirmar automáticamente el pedido.");
-            model.addAttribute("cartItems", cartService.getItems());
+            addCartModelAttributes(model, cartService.getItems());
             return "checkout";
         }
     }
@@ -122,7 +124,26 @@ public class CheckoutController {
         }
 
         model.addAttribute("error", "Pago cancelado. Puedes revisar el carrito e intentarlo de nuevo.");
-        model.addAttribute("cartItems", cartService.getItems());
+        addCartModelAttributes(model, cartService.getItems());
         return "checkout";
+    }
+
+    private void addCartModelAttributes(Model model, Map<Product, Integer> items) {
+        Map<Long, BigDecimal> lineTotals = new HashMap<>();
+
+        for (Map.Entry<Product, Integer> entry : items.entrySet()) {
+            Product product = entry.getKey();
+            Integer quantity = entry.getValue();
+
+            if (product == null || product.getId() == null || product.getPrice() == null || quantity == null) {
+                continue;
+            }
+
+            BigDecimal lineTotal = product.getPrice().multiply(BigDecimal.valueOf(quantity.longValue()));
+            lineTotals.put(product.getId(), lineTotal);
+        }
+
+        model.addAttribute("cartItems", items);
+        model.addAttribute("lineTotals", lineTotals);
     }
 }

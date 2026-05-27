@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RetroGoal - Checkout</title>
+    <title>RetroGoal - Iniciar sesión</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <!-- Custom styles -->
     <link rel="stylesheet" href="/css/style.css">
@@ -26,8 +26,8 @@
             </ul>
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item dropdown" th:if="${currentUserEmail != null}">
-                    <a class="nav-link dropdown-toggle" href="#" id="userMenuCheckout" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${currentUserEmail}">Cuenta</a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuCheckout">
+                    <a class="nav-link dropdown-toggle" href="#" id="userMenuLogin" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${currentUserEmail}">Cuenta</a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuLogin">
                         <li><a class="dropdown-item" href="/cart" th:text="#{navbar.ver_carrito}">Ver carrito</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="/logout" th:text="#{navbar.cerrar_sesion}">Cerrar sesión</a></li>
@@ -36,8 +36,8 @@
                 <li class="nav-item" th:if="${currentUserEmail == null}"><a class="nav-link" href="/login" th:text="#{navbar.entrar}">Entrar</a></li>
                 <li class="nav-item" th:if="${currentUserEmail == null}"><a class="nav-link" href="/register" th:text="#{navbar.registrarse}">Registrarse</a></li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="languageMenuCheckout" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="#{navbar.idioma}">Idioma</a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageMenuCheckout">
+                    <a class="nav-link dropdown-toggle" href="#" id="languageMenuLogin" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="#{navbar.idioma}">Idioma</a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageMenuLogin">
                         <li><a class="dropdown-item" href="?lang=es" th:text="#{navbar.castellano}">Castellano</a></li>
                         <li><a class="dropdown-item" href="?lang=en" th:text="#{navbar.ingles}">English</a></li>
                         <li><a class="dropdown-item" href="?lang=fr" th:text="#{navbar.frances}">Français</a></li>
@@ -47,39 +47,24 @@
         </div>
     </div>
 </nav>
-
-<div class="container mt-4">
-    <h1>Checkout</h1>
-    <div class="alert alert-danger" th:if="${error}" th:text="${error}">Error</div>
-    <div th:if="${#maps.isEmpty(cartItems)}">
-        <p>No hay artículos en el carrito.</p>
-    </div>
-    <div th:if="${!#maps.isEmpty(cartItems)}">
-        <h3>Resumen del pedido</h3>
-        <table class="table table-bordered">
-            <thead>
-            <tr><th>Producto</th><th>Cantidad</th><th>Precio unidad</th><th>Total</th></tr>
-            </thead>
-            <tbody>
-            <tr th:each="entry : ${cartItems}">
-                <td th:text="${entry.key.name}">Producto</td>
-                <td th:text="${entry.value}">1</td>
-                <td th:text="${entry.key.price}">0.00</td>
-                <td th:text="${lineTotals[entry.key.id]}">0.00</td>
-            </tr>
-            </tbody>
-        </table>
-        <form method="post" th:action="@{/checkout}">
-            <div class="mb-3">
-                <label for="address" class="form-label">Dirección de envío</label>
-                <textarea id="address" name="shippingAddress" class="form-control" required></textarea>
-            </div>
-            <p class="text-muted">Al continuar serás redirigido a Stripe para completar el pago de forma segura.</p>
-            <button type="submit" class="btn btn-success">Pagar con Stripe</button>
-        </form>
-    </div>
+<div class="container mt-5" style="max-width: 400px;">
+    <h2 class="text-center">Iniciar sesión</h2>
+    <form th:action="@{/login}" method="post">
+        <div class="mb-3">
+            <label for="username" class="form-label">Correo electrónico</label>
+            <input type="text" id="username" name="username" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+        <div th:if="${param.error}" class="alert alert-danger">Usuario o contraseña incorrectos.</div>
+        <div th:if="${param.logout}" class="alert alert-info">Sesión cerrada correctamente.</div>
+        <div th:if="${param.registered}" class="alert alert-success">Registro completado. Puedes iniciar sesión.</div>
+        <button type="submit" class="btn btn-primary w-100">Entrar</button>
+    </form>
+    <p class="mt-3 text-center">¿No tienes cuenta? <a href="/register">Regístrate</a></p>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

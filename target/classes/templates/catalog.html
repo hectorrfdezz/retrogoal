@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RetroGoal - Carrito</title>
+    <title>RetroGoal - Catálogo</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <!-- Custom styles -->
     <link rel="stylesheet" href="/css/style.css">
@@ -26,8 +26,8 @@
             </ul>
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item dropdown" th:if="${currentUserEmail != null}">
-                    <a class="nav-link dropdown-toggle" href="#" id="userMenuCart" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${currentUserEmail}">Cuenta</a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuCart">
+                    <a class="nav-link dropdown-toggle" href="#" id="userMenuCatalog" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${currentUserEmail}">Cuenta</a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuCatalog">
                         <li><a class="dropdown-item" href="/cart" th:text="#{navbar.ver_carrito}">Ver carrito</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="/logout" th:text="#{navbar.cerrar_sesion}">Cerrar sesión</a></li>
@@ -36,8 +36,8 @@
                 <li class="nav-item" th:if="${currentUserEmail == null}"><a class="nav-link" href="/login" th:text="#{navbar.entrar}">Entrar</a></li>
                 <li class="nav-item" th:if="${currentUserEmail == null}"><a class="nav-link" href="/register" th:text="#{navbar.registrarse}">Registrarse</a></li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="languageMenuCart" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="#{navbar.idioma}">Idioma</a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageMenuCart">
+                    <a class="nav-link dropdown-toggle" href="#" id="languageMenuCatalog" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="#{navbar.idioma}">Idioma</a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageMenuCatalog">
                         <li><a class="dropdown-item" href="?lang=es" th:text="#{navbar.castellano}">Castellano</a></li>
                         <li><a class="dropdown-item" href="?lang=en" th:text="#{navbar.ingles}">English</a></li>
                         <li><a class="dropdown-item" href="?lang=fr" th:text="#{navbar.frances}">Français</a></li>
@@ -49,63 +49,52 @@
 </nav>
 
 <div class="container mt-4">
-    <h1>Tu carrito</h1>
-    <!-- Use cartItems.isEmpty() instead of #maps.isEmpty to avoid errors -->
-    <div th:if="${!cartItems.isEmpty()}">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Producto</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th>Total</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="entry : ${cartItems}">
-                <td th:text="${entry.key.name}">Nombre</td>
-                <td th:text="${entry.key.price}">0.00</td>
-                <td>
-                    <form th:action="@{/cart/update}" method="post" class="d-flex">
-                        <input type="number" name="quantity" th:value="${entry.value}" min="1" class="form-control" style="max-width: 80px;">
-                        <input type="hidden" name="productId" th:value="${entry.key.id}"/>
-                        <button type="submit" class="btn btn-sm btn-secondary ms-2">Actualizar</button>
+    <h1>Catálogo</h1>
+    <form class="row g-3 mb-3" method="get" action="/catalog">
+        <div class="col-md-3">
+            <input type="text" name="search" class="form-control" placeholder="Buscar por nombre">
+        </div>
+        <div class="col-md-2">
+            <input type="text" name="team" class="form-control" placeholder="Equipo">
+        </div>
+        <div class="col-md-2">
+            <input type="text" name="era" class="form-control" placeholder="Temporada/Era">
+        </div>
+        <div class="col-md-2">
+            <select name="size" class="form-select">
+                <option value="">Talla</option>
+                <option>S</option>
+                <option>M</option>
+                <option>L</option>
+                <option>XL</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <input type="number" step="0.01" name="maxPrice" class="form-control" placeholder="Precio máx">
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-12 col-md-4 mb-4" th:each="product : ${products}">
+            <div class="card h-100">
+                <img th:src="${product.imageUrl}" class="card-img-top" alt="Imagen de la camiseta">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${product.name}">Nombre del Producto</h5>
+                    <p class="card-text" th:text="${product.team} + ' (' + ${product.era} + ')'">Equipo/Era</p>
+                    <p class="card-text">Talla: <span th:text="${product.size}">M</span></p>
+                    <p class="card-text fw-bold">Precio: <span th:text="${product.price}">0.00</span> €</p>
+                    <form th:action="@{/cart/add}" method="post">
+                        <input type="hidden" name="productId" th:value="${product.id}"/>
+                        <button type="submit" class="btn btn-success">Añadir al carrito</button>
+                        <a th:href="@{'/product/' + ${product.id}}" class="btn btn-primary ms-2">Ver</a>
                     </form>
-                </td>
-                <td th:text="${lineTotals[entry.key.id]}">0.00</td>
-                <td>
-                    <form th:action="@{/cart/remove}" method="post">
-                        <input type="hidden" name="productId" th:value="${entry.key.id}"/>
-                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-            <tfoot th:if="${!cartItems.isEmpty()}">
-            <tr>
-                <th colspan="3" class="text-end">Subtotal:</th>
-                <th th:text="${cartTotal}">0.00</th>
-                <th></th>
-            </tr>
-            <tr>
-                <th colspan="3" class="text-end">Envío:</th>
-                <th th:text="${shipping}">0.00</th>
-                <th></th>
-            </tr>
-            <tr>
-                <th colspan="3" class="text-end">Total:</th>
-                <th th:text="${finalTotal}">0.00</th>
-                <th></th>
-            </tr>
-            </tfoot>
-        </table>
-        <div class="d-flex justify-content-end" th:if="${!cartItems.isEmpty()}">
-            <a href="/checkout" class="btn btn-primary">Proceder al pago</a>
+                </div>
+            </div>
         </div>
     </div>
-    <!-- Show message when cart is empty -->
-    <p th:if="${cartItems.isEmpty()}">Tu carrito está vacío.</p>
+    <p th:if="${#lists.isEmpty(products)}">No se han encontrado productos con los criterios seleccionados.</p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
