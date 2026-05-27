@@ -49,63 +49,63 @@
 </nav>
 
 <div class="container mt-4">
-    <h1>Tu carrito</h1>
+    <h1 th:text="#{cart.title}">Tu carrito</h1>
     <!-- Use cartItems.isEmpty() instead of #maps.isEmpty to avoid errors -->
     <div th:if="${!cartItems.isEmpty()}">
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>Producto</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th>Total</th>
+                <th th:text="#{cart.product}">Producto</th>
+                <th th:text="#{product.price}">Precio</th>
+                <th th:text="#{cart.quantity}">Cantidad</th>
+                <th th:text="#{cart.total}">Total</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="entry : ${cartItems}">
-                <td th:text="${entry.key.name}">Nombre</td>
+                <td th:text="${entry.key.getLocalizedName(#locale.language)}">Nombre</td>
                 <td th:text="${entry.key.price}">0.00</td>
                 <td>
                     <form th:action="@{/cart/update}" method="post" class="d-flex">
                         <input type="number" name="quantity" th:value="${entry.value}" min="1" class="form-control" style="max-width: 80px;">
                         <input type="hidden" name="productId" th:value="${entry.key.id}"/>
-                        <button type="submit" class="btn btn-sm btn-secondary ms-2">Actualizar</button>
+                        <button type="submit" class="btn btn-sm btn-secondary ms-2" th:text="#{cart.update}">Actualizar</button>
                     </form>
                 </td>
                 <td th:text="${lineTotals[entry.key.id]}">0.00</td>
                 <td>
                     <form th:action="@{/cart/remove}" method="post">
                         <input type="hidden" name="productId" th:value="${entry.key.id}"/>
-                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                        <button type="submit" class="btn btn-danger btn-sm" th:text="#{cart.remove}">Eliminar</button>
                     </form>
                 </td>
             </tr>
             </tbody>
             <tfoot th:if="${!cartItems.isEmpty()}">
             <tr>
-                <th colspan="3" class="text-end">Subtotal:</th>
+                <th colspan="3" class="text-end"><span th:text="#{cart.subtotal}">Subtotal</span>:</th>
                 <th th:text="${cartTotal}">0.00</th>
                 <th></th>
             </tr>
             <tr>
-                <th colspan="3" class="text-end">Envío:</th>
+                <th colspan="3" class="text-end"><span th:text="#{cart.shipping}">Envío</span>:</th>
                 <th th:text="${shipping}">0.00</th>
                 <th></th>
             </tr>
             <tr>
-                <th colspan="3" class="text-end">Total:</th>
+                <th colspan="3" class="text-end"><span th:text="#{cart.final_total}">Total</span>:</th>
                 <th th:text="${finalTotal}">0.00</th>
                 <th></th>
             </tr>
             </tfoot>
         </table>
         <div class="d-flex justify-content-end" th:if="${!cartItems.isEmpty()}">
-            <a href="/checkout" class="btn btn-primary">Proceder al pago</a>
+            <a href="/checkout" class="btn btn-primary" th:text="#{cart.checkout}">Proceder al pago</a>
         </div>
     </div>
     <!-- Show message when cart is empty -->
-    <p th:if="${cartItems.isEmpty()}">Tu carrito está vacío.</p>
+    <p th:if="${cartItems.isEmpty()}" th:text="#{cart.empty}">Tu carrito está vacío.</p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

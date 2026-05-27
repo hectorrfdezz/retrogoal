@@ -49,13 +49,13 @@
 </nav>
 
 <div class="container mt-4">
-    <h1>¡Gracias por tu compra!</h1>
-    <p>Su pedido ha sido procesado correctamente. Recibirá un correo electrónico con la confirmación y los detalles del envío en breve.</p>
-    <p><strong>ID de pedido:</strong> <span th:text="${order.id}">0</span></p>
-    <p><strong>Estado:</strong> <span th:text="${order.status}">PAID</span></p>
-    <p th:if="${paymentStatus != null}"><strong>Estado del pago Stripe:</strong> <span th:text="${paymentStatus}">paid</span></p>
-    <p><strong>Importe total:</strong> <span th:text="${order.totalPrice}">0.00</span> €</p>
-    <a href="/catalog" class="btn btn-primary">Seguir comprando</a>
+    <h1 th:text="#{order.thanks}">¡Gracias por tu compra!</h1>
+    <p th:text="#{order.success}">Su pedido ha sido procesado correctamente. Recibirá un correo electrónico con la confirmación y los detalles del envío en breve.</p>
+    <p><strong th:text="#{order.id}">ID de pedido</strong>: <span th:text="${order.id}">0</span></p>
+    <p><strong th:text="#{order.status}">Estado</strong>: <span th:text="${order.status}">PAID</span></p>
+    <p th:if="${paymentStatus != null}"><strong th:text="#{order.payment_status}">Estado del pago Stripe</strong>: <span th:text="${paymentStatus}">paid</span></p>
+    <p><strong th:text="#{order.total_amount}">Importe total</strong>: <span th:text="${order.totalPrice}">0.00</span> €</p>
+    <a href="/catalog" class="btn btn-primary" th:text="#{order.continue}">Seguir comprando</a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

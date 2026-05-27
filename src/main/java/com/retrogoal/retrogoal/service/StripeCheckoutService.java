@@ -28,7 +28,7 @@ public class StripeCheckoutService {
         return stripeSecretKey != null && !stripeSecretKey.isBlank();
     }
 
-    public Session createCheckoutSession(Order order, Map<Product, Integer> cartItems) throws StripeException {
+    public Session createCheckoutSession(Order order, Map<Product, Integer> cartItems, String language) throws StripeException {
         if (!isConfigured()) {
             throw new IllegalStateException("Stripe secret key is not configured. Set STRIPE_SECRET_KEY.");
         }
@@ -57,7 +57,7 @@ public class StripeCheckoutService {
                                             .setUnitAmount(toCents(product.getPrice()))
                                             .setProductData(
                                                     SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                                                            .setName(product.getName())
+                                                            .setName(product.getLocalizedName(language))
                                                             .build()
                                             )
                                             .build()

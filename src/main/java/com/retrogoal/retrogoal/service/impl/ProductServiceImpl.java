@@ -22,12 +22,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> searchByName(String name) {
-        return productRepository.findByNameContainingIgnoreCase(name);
+        return productRepository.findByNameContainingIgnoreCaseOrNameEnContainingIgnoreCaseOrNameFrContainingIgnoreCase(name, name, name);
     }
 
     @Override
     public List<Product> filterByTeam(String team) {
-        return productRepository.findByTeamContainingIgnoreCase(team);
+        return productRepository.findByTeamContainingIgnoreCaseOrTeamEnContainingIgnoreCaseOrTeamFrContainingIgnoreCase(team, team, team);
     }
 
     @Override

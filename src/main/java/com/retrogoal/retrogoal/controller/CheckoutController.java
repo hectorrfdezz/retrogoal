@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -60,6 +61,7 @@ public class CheckoutController {
     @PostMapping
     public String processCheckout(@ModelAttribute CheckoutForm form,
                                   @AuthenticationPrincipal User user,
+                                  Locale locale,
                                   Model model) {
         Map<Product, Integer> items = cartService.getItems();
 
@@ -71,7 +73,7 @@ public class CheckoutController {
 
         try {
             Order order = orderService.createOrder(user, items, form.getShippingAddress());
-            Session session = stripeCheckoutService.createCheckoutSession(order, items);
+            Session session = stripeCheckoutService.createCheckoutSession(order, items, locale.getLanguage());
             return "redirect:" + session.getUrl();
         } catch (Exception e) {
             model.addAttribute("error", "No se pudo iniciar el pago con Stripe. Revisa las variables STRIPE_SECRET_KEY y APP_BASE_URL.");

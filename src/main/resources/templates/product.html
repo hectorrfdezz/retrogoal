@@ -52,21 +52,21 @@
     <div class="row">
         <div class="col-md-6">
             <!-- Fallback local image for the product -->
-            <img th:src="*{imageUrl}" id="fallbackImage" class="img-fluid mb-3" alt="Imagen del producto">
+            <img th:src="*{imageUrl}" id="fallbackImage" class="img-fluid mb-3" th:alt="#{product.image_alt}">
             <!-- AI generated image will be injected here; hidden until loaded -->
-            <img id="aiImage" class="img-fluid mb-3" style="display:none;" alt="Imagen generada por IA">
+            <img id="aiImage" class="img-fluid mb-3" style="display:none;" th:alt="#{product.image_alt}">
         </div>
         <div class="col-md-6">
-            <h2 th:text="*{name}">Nombre</h2>
-            <p th:text="*{description}">Descripción del producto</p>
-            <p><strong>Equipo:</strong> <span th:text="*{team}">Equipo</span></p>
-            <p><strong>Temporada/Era:</strong> <span th:text="*{era}">Era</span></p>
+            <h2 th:text="${product.getLocalizedName(#locale.language)}">Nombre</h2>
+            <p th:text="${product.getLocalizedDescription(#locale.language)}">Descripción del producto</p>
+            <p><strong th:text="#{product.team}">Equipo</strong>: <span th:text="${product.getLocalizedTeam(#locale.language)}">Equipo</span></p>
+            <p><strong th:text="#{product.season}">Temporada/Era</strong>: <span th:text="*{era}">Era</span></p>
             <!-- Dynamic price display -->
-            <p><strong>Precio:</strong> <span id="priceDisplay" th:text="*{price}">0.00</span> €</p>
+            <p><strong th:text="#{product.price}">Precio</strong>: <span id="priceDisplay" th:text="*{price}">0.00</span> €</p>
             <form th:action="@{/cart/add}" method="post" class="mb-3">
                 <input type="hidden" name="productId" th:value="*{id}"/>
                 <div class="mb-2">
-                    <label for="sizeSelect" class="form-label">Talla</label>
+                    <label for="sizeSelect" class="form-label" th:text="#{product.size}">Talla</label>
                     <select id="sizeSelect" name="size" class="form-select" style="max-width: 200px;">
                         <option value="S">S</option>
                         <option value="M">M</option>
@@ -75,7 +75,7 @@
                     </select>
                 </div>
                 <div class="mb-2">
-                    <label class="form-label">Versión</label>
+                    <label class="form-label" th:text="#{product.version}">Versión</label>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="version" id="versionFan" value="Fan" checked>
                         <label class="form-check-label" for="versionFan">Fan</label>
@@ -86,31 +86,31 @@
                     </div>
                 </div>
                 <div class="mb-2">
-                    <label for="customName" class="form-label">Nombre personalizado (opcional)</label>
+                    <label for="customName" class="form-label" th:text="#{product.custom_name}">Nombre personalizado (opcional)</label>
                     <input id="customName" type="text" name="customName" class="form-control" pattern="[A-Za-zÀ-ÿ\s]*">
                 </div>
                 <div class="mb-3">
-                    <label for="customNumber" class="form-label">Dorsal (opcional)</label>
+                    <label for="customNumber" class="form-label" th:text="#{product.custom_number}">Dorsal (opcional)</label>
                     <input id="customNumber" type="number" name="customNumber" class="form-control" min="0" max="99">
                 </div>
                 <div class="input-group mb-3" style="max-width: 200px;">
-                    <span class="input-group-text">Cantidad</span>
+                    <span class="input-group-text" th:text="#{product.quantity}">Cantidad</span>
                     <input type="number" name="quantity" class="form-control" min="1" value="1">
                 </div>
-                <button type="submit" class="btn btn-success">Añadir al carrito</button>
+                <button type="submit" class="btn btn-success" th:text="#{product.add_cart}">Añadir al carrito</button>
             </form>
-            <a href="/catalog" class="btn btn-secondary">Volver al catálogo</a>
+            <a href="/catalog" class="btn btn-secondary" th:text="#{product.back_catalog}">Volver al catálogo</a>
         </div>
     </div>
     <hr>
-    <h4>También te puede interesar</h4>
+    <h4 th:text="#{product.recommended}">También te puede interesar</h4>
     <div class="row">
         <div class="col-6 col-md-3 mb-3" th:each="rec : ${product.recommendedProducts}">
             <div class="card h-100">
-                <img th:src="${rec.imageUrl}" class="card-img-top" alt="Recomendación">
+                <img th:src="${rec.imageUrl}" class="card-img-top" th:alt="#{product.image_alt}">
                 <div class="card-body">
-                    <h6 class="card-title" th:text="${rec.name}">Recomendación</h6>
-                    <a th:href="@{'/product/' + ${rec.id}}" class="btn btn-sm btn-primary">Ver</a>
+                    <h6 class="card-title" th:text="${rec.getLocalizedName(#locale.language)}">Recomendación</h6>
+                    <a th:href="@{'/product/' + ${rec.id}}" class="btn btn-sm btn-primary" th:text="#{product.view}">Ver</a>
                 </div>
             </div>
         </div>
