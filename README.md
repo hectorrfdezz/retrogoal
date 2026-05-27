@@ -142,8 +142,18 @@ Para usar MySQL en lugar de H2, actualiza las propiedades `spring.datasource.*` 
 
 ### Google Maps
 
-La página `/map` usa Leaflet y OpenStreetMap. Si quieres sustituirla por Google Maps, cambia la plantilla
-`src/main/resources/templates/map.html` y carga la Maps JavaScript API con tu clave de Google Cloud.
+La página `/map` integra Google Maps JavaScript API para mostrar una ubicación de ejemplo de la tienda física.
+Configura la clave y, si quieres, cambia la ubicación con variables de entorno antes de ejecutar el proyecto:
+
+```bash
+GOOGLE_MAPS_API_KEY=tu_clave_de_google_maps
+STORE_LOCATION_NAME=RetroGoal Sevilla
+STORE_LOCATION_ADDRESS=Calle Sierpes 1, 41004 Sevilla, España
+STORE_LOCATION_LATITUDE=37.3891
+STORE_LOCATION_LONGITUDE=-5.9845
+```
+
+Si no configuras `GOOGLE_MAPS_API_KEY`, la página `/map` seguirá cargando, pero mostrará un aviso en lugar del mapa.
 
 ### PWA
 
