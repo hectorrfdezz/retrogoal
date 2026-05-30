@@ -77,6 +77,7 @@ public class Product {
     private String imageUrl;
 
     /**
+<<<<<<< HEAD
      * League to which the team belongs (e.g. LaLiga, Premier League, Bundesliga, Ligue 1).
      * Stored in default language but can be localized via separate fields.
      */
@@ -101,6 +102,8 @@ public class Product {
     private boolean retro = false;
 
     /**
+=======
+>>>>>>> 8e1814b2cacaeaee1a0abe3e65beb24ede1f4c39
      * Recommended products that are related to this product. Many-to-many
      * relationship with the same table to allow simple recommendations.
      */
@@ -120,6 +123,7 @@ public class Product {
         return name;
     }
 
+<<<<<<< HEAD
     /**
      * Returns the localized league name for the given language. Falls back to the default league when translation is unavailable.
      *
@@ -139,6 +143,8 @@ public class Product {
         return league;
     }
 
+=======
+>>>>>>> 8e1814b2cacaeaee1a0abe3e65beb24ede1f4c39
     public String getLocalizedDescription(String language) {
         if ("en".equalsIgnoreCase(language)) {
             return fallback(descriptionEn, description);

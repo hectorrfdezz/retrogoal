@@ -66,10 +66,13 @@ public class DataInitializer {
                         .price(new BigDecimal("59.99"))
                         .stock(10)
                         .imageUrl("/images/barca1999.png")
+<<<<<<< HEAD
                         .league("LaLiga")
                         .leagueEn("LaLiga")
                         .leagueFr("LaLiga")
                         .retro(true)
+=======
+>>>>>>> 8e1814b2cacaeaee1a0abe3e65beb24ede1f4c39
                         .build();
 
                 // Real Madrid 2024 (Current)
@@ -88,10 +91,13 @@ public class DataInitializer {
                         .price(new BigDecimal("89.99"))
                         .stock(15)
                         .imageUrl("/images/real_madrid_2024.png")
+<<<<<<< HEAD
                         .league("LaLiga")
                         .leagueEn("LaLiga")
                         .leagueFr("LaLiga")
                         .retro(false)
+=======
+>>>>>>> 8e1814b2cacaeaee1a0abe3e65beb24ede1f4c39
                         .build();
 
                 // Spain National Team 2010 (Retro)
@@ -110,10 +116,13 @@ public class DataInitializer {
                         .price(new BigDecimal("69.99"))
                         .stock(8)
                         .imageUrl("/images/espana2010.png")
+<<<<<<< HEAD
                         .league("Selecciones")
                         .leagueEn("National Teams")
                         .leagueFr("Sélections")
                         .retro(true)
+=======
+>>>>>>> 8e1814b2cacaeaee1a0abe3e65beb24ede1f4c39
                         .build();
 
                 // Manchester United 1999 (Retro)

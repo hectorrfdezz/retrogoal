@@ -64,6 +64,7 @@ body {
 .footer {
     background-color: #000000;
     color: #f8f9fa;
+<<<<<<< HEAD
     padding: 40px 0 28px;
     text-align: center;
     margin-top: 40px;
@@ -82,6 +83,11 @@ body {
 .footer .btn-primary:hover {
     background-color: #138496;
     border-color: #138496;
+=======
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 40px;
+>>>>>>> 8e1814b2cacaeaee1a0abe3e65beb24ede1f4c39
 }
 
 /* Google Maps page */
@@ -109,6 +115,7 @@ body {
     height: 480px;
     min-height: 360px;
 }
+<<<<<<< HEAD
 
 /* Logo icon styling for navbar */
 /* Set explicit size for logo icons to avoid cropping while preserving the aspect ratio. */
@@ -145,3 +152,5 @@ body {
     white-space: nowrap !important;
     border: 0 !important;
 }
+=======
+>>>>>>> 8e1814b2cacaeaee1a0abe3e65beb24ede1f4c39

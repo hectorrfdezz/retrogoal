@@ -12,10 +12,14 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <!-- Brand name with translation -->
+<<<<<<< HEAD
         <a class="navbar-brand d-flex align-items-center" th:href="@{/(lang=${#locale.language})}">
             <img src="/images/retrogoal-icon.png" alt="RetroGoal logo" class="logo-icon">
             <span class="visually-hidden" th:text="#{navbar.retogoal}">RetroGoal</span>
         </a>
+=======
+        <a class="navbar-brand" th:href="@{/(lang=${#locale.language})}" href="/" th:text="#{navbar.retogoal}">RetroGoal</a>
+>>>>>>> 8e1814b2cacaeaee1a0abe3e65beb24ede1f4c39
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -135,6 +139,7 @@
     updatePrice();
     /*]]>*/
 </script>
+<<<<<<< HEAD
         <!-- Include Puter AI library for generating jersey images -->
         <script src="https://js.puter.com/v2/"></script>
         <script th:inline="javascript">
@@ -150,6 +155,24 @@
                 const prompt = `${name} football jersey, ${era} season, front view, photorealistic, plain white background, high quality`;
                 const fallback = document.getElementById('fallbackImage');
                 const aiImg = document.getElementById('aiImage');
+=======
+<!-- Include Puter AI library for generating jersey images -->
+<script src="https://js.puter.com/v2/"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    // Generate an AI image of the shirt using Puter.js based on team and era.
+    (async function() {
+        try {
+            if (window.puter && puter.ai) {
+                const team = /*[[${product.team}]]*/ '';
+                const era = /*[[${product.era}]]*/ '';
+                // Use a more descriptive prompt to generate realistic football kit images
+                const prompt = `football jersey ${team} ${era} season home kit, front view, photorealistic, plain white background`;
+                // Show a loading indicator by dimming the fallback image
+                const fallback = document.getElementById('fallbackImage');
+                const aiImg = document.getElementById('aiImage');
+                // Call the AI API
+>>>>>>> 8e1814b2cacaeaee1a0abe3e65beb24ede1f4c39
                 const imageUrl = await puter.ai.txt2img(prompt);
                 if (imageUrl) {
                     aiImg.src = imageUrl;
