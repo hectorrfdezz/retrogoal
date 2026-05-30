@@ -13,14 +13,10 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <!-- Brand name with translation -->
-<<<<<<< HEAD
         <a class="navbar-brand d-flex align-items-center" th:href="@{/(lang=${#locale.language})}">
             <img src="/images/retrogoal-icon.png" alt="RetroGoal logo" class="logo-icon">
             <span class="visually-hidden" th:text="#{navbar.retogoal}">RetroGoal</span>
         </a>
-=======
-        <a class="navbar-brand" th:href="@{/(lang=${#locale.language})}" href="/" th:text="#{navbar.retogoal}">RetroGoal</a>
->>>>>>> 8e1814b2cacaeaee1a0abe3e65beb24ede1f4c39
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -59,12 +55,8 @@
 <!-- Hero section -->
 <div class="hero-section">
     <div class="container">
-<<<<<<< HEAD
         <img src="/images/retrogoal-full.png" alt="RetroGoal logo" class="hero-logo">
         <h1 class="visually-hidden" th:text="#{home.title}">Bienvenido a RetroGoal</h1>
-=======
-        <h1 th:text="#{home.title}">Bienvenido a RetroGoal</h1>
->>>>>>> 8e1814b2cacaeaee1a0abe3e65beb24ede1f4c39
         <p th:text="#{home.subtitle}">Descubre nuestra colección de camisetas de fútbol retro y modernas.</p>
         <a th:href="@{/catalog(lang=${#locale.language})}" href="/catalog" class="hero-btn" th:text="#{home.cta}">Explorar catálogo</a>
     </div>

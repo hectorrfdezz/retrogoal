@@ -66,13 +66,10 @@ public class DataInitializer {
                         .price(new BigDecimal("59.99"))
                         .stock(10)
                         .imageUrl("/images/barca1999.png")
-<<<<<<< HEAD
                         .league("LaLiga")
                         .leagueEn("LaLiga")
                         .leagueFr("LaLiga")
                         .retro(true)
-=======
->>>>>>> 8e1814b2cacaeaee1a0abe3e65beb24ede1f4c39
                         .build();
 
                 // Real Madrid 2024 (Current)
@@ -91,13 +88,10 @@ public class DataInitializer {
                         .price(new BigDecimal("89.99"))
                         .stock(15)
                         .imageUrl("/images/real_madrid_2024.png")
-<<<<<<< HEAD
                         .league("LaLiga")
                         .leagueEn("LaLiga")
                         .leagueFr("LaLiga")
                         .retro(false)
-=======
->>>>>>> 8e1814b2cacaeaee1a0abe3e65beb24ede1f4c39
                         .build();
 
                 // Spain National Team 2010 (Retro)
@@ -116,13 +110,10 @@ public class DataInitializer {
                         .price(new BigDecimal("69.99"))
                         .stock(8)
                         .imageUrl("/images/espana2010.png")
-<<<<<<< HEAD
                         .league("Selecciones")
                         .leagueEn("National Teams")
                         .leagueFr("Sélections")
                         .retro(true)
-=======
->>>>>>> 8e1814b2cacaeaee1a0abe3e65beb24ede1f4c39
                         .build();
 
                 // Manchester United 1999 (Retro)
@@ -140,7 +131,7 @@ public class DataInitializer {
                         .size("L")
                         .price(new BigDecimal("64.99"))
                         .stock(12)
-                        .imageUrl("/images/liverpool_2526.png") // placeholder to be replaced
+                        .imageUrl("/images/man_united_1999.png")
                         .league("Premier League")
                         .leagueEn("Premier League")
                         .leagueFr("Premier League")
@@ -162,7 +153,7 @@ public class DataInitializer {
                         .size("M")
                         .price(new BigDecimal("74.99"))
                         .stock(9)
-                        .imageUrl("/images/bayern_2526.png") // placeholder to be replaced
+                        .imageUrl("/images/bayern_2013.png")
                         .league("Bundesliga")
                         .leagueEn("Bundesliga")
                         .leagueFr("Bundesliga")
@@ -323,8 +314,164 @@ public class DataInitializer {
                         .retro(false)
                         .build();
 
+
+
+                // France 1998 (Retro)
+                Product p13 = Product.builder()
+                        .name("Camiseta Francia 1998")
+                        .nameEn("France 1998 Shirt")
+                        .nameFr("Maillot France 1998")
+                        .description("Camiseta retro de la selección francesa de 1998.")
+                        .descriptionEn("Retro France national team shirt from 1998.")
+                        .descriptionFr("Maillot rétro de l'équipe de France de 1998.")
+                        .team("Francia")
+                        .teamEn("France")
+                        .teamFr("France")
+                        .era("1998")
+                        .size("M")
+                        .price(new BigDecimal("79.99"))
+                        .stock(9)
+                        .imageUrl("/images/france_1998.png")
+                        .league("Selecciones")
+                        .leagueEn("National Teams")
+                        .leagueFr("Sélections")
+                        .retro(true)
+                        .build();
+
+                // Santos 2011 (Retro/Neymar era)
+                Product p14 = Product.builder()
+                        .name("Camiseta Santos 2011")
+                        .nameEn("Santos 2011 Shirt")
+                        .nameFr("Maillot Santos 2011")
+                        .description("Camiseta retro del Santos de la etapa de Neymar.")
+                        .descriptionEn("Retro Santos shirt from Neymar's era at the club.")
+                        .descriptionFr("Maillot rétro de Santos de la période de Neymar au club.")
+                        .team("Santos FC")
+                        .teamEn("Santos FC")
+                        .teamFr("Santos FC")
+                        .era("2011")
+                        .size("M")
+                        .price(new BigDecimal("69.99"))
+                        .stock(11)
+                        .imageUrl("/images/santos_2011.png")
+                        .league("Brasileirão Série A")
+                        .leagueEn("Brasileirão Série A")
+                        .leagueFr("Brasileirão Série A")
+                        .retro(true)
+                        .build();
+
+                // Brazil 2002 (Retro)
+                Product p15 = Product.builder()
+                        .name("Camiseta Brasil 2002")
+                        .nameEn("Brazil 2002 Shirt")
+                        .nameFr("Maillot Brésil 2002")
+                        .description("Camiseta retro de Brasil de la Copa Mundial 2002.")
+                        .descriptionEn("Retro Brazil national team shirt from the 2002 World Cup.")
+                        .descriptionFr("Maillot rétro du Brésil de la Coupe du monde 2002.")
+                        .team("Brasil")
+                        .teamEn("Brazil")
+                        .teamFr("Brésil")
+                        .era("2002")
+                        .size("L")
+                        .price(new BigDecimal("84.99"))
+                        .stock(10)
+                        .imageUrl("/images/brazil_2002.png")
+                        .league("Selecciones")
+                        .leagueEn("National Teams")
+                        .leagueFr("Sélections")
+                        .retro(true)
+                        .build();
+
+                // Argentina 1986 (Retro)
+                Product p16 = Product.builder()
+                        .name("Camiseta Argentina 1986")
+                        .nameEn("Argentina 1986 Shirt")
+                        .nameFr("Maillot Argentine 1986")
+                        .description("Camiseta retro de Argentina de 1986.")
+                        .descriptionEn("Retro Argentina national team shirt from 1986.")
+                        .descriptionFr("Maillot rétro de l'Argentine de 1986.")
+                        .team("Argentina")
+                        .teamEn("Argentina")
+                        .teamFr("Argentine")
+                        .era("1986")
+                        .size("M")
+                        .price(new BigDecimal("89.99"))
+                        .stock(6)
+                        .imageUrl("/images/argentina_1986.png")
+                        .league("Selecciones")
+                        .leagueEn("National Teams")
+                        .leagueFr("Sélections")
+                        .retro(true)
+                        .build();
+
+                // AC Milan 2007 (Retro)
+                Product p17 = Product.builder()
+                        .name("Camiseta AC Milan 2007")
+                        .nameEn("AC Milan 2007 Shirt")
+                        .nameFr("Maillot AC Milan 2007")
+                        .description("Camiseta retro del AC Milan de la temporada 2006/07.")
+                        .descriptionEn("Retro AC Milan shirt from the 2006/07 season.")
+                        .descriptionFr("Maillot rétro de l'AC Milan de la saison 2006/07.")
+                        .team("AC Milan")
+                        .teamEn("AC Milan")
+                        .teamFr("AC Milan")
+                        .era("2006/07")
+                        .size("L")
+                        .price(new BigDecimal("74.99"))
+                        .stock(8)
+                        .imageUrl("/images/ac_milan_2007.png")
+                        .league("Serie A")
+                        .leagueEn("Serie A")
+                        .leagueFr("Serie A")
+                        .retro(true)
+                        .build();
+
+                // Juventus 1998 (Retro)
+                Product p18 = Product.builder()
+                        .name("Camiseta Juventus 1998")
+                        .nameEn("Juventus 1998 Shirt")
+                        .nameFr("Maillot Juventus 1998")
+                        .description("Camiseta retro de la Juventus de la temporada 1997/98.")
+                        .descriptionEn("Retro Juventus shirt from the 1997/98 season.")
+                        .descriptionFr("Maillot rétro de la Juventus de la saison 1997/98.")
+                        .team("Juventus")
+                        .teamEn("Juventus")
+                        .teamFr("Juventus")
+                        .era("1997/98")
+                        .size("M")
+                        .price(new BigDecimal("69.99"))
+                        .stock(10)
+                        .imageUrl("/images/juventus_1998.png")
+                        .league("Serie A")
+                        .leagueEn("Serie A")
+                        .leagueFr("Serie A")
+                        .retro(true)
+                        .build();
+
+                // Ajax 1995 (Retro)
+                Product p19 = Product.builder()
+                        .name("Camiseta Ajax 1995")
+                        .nameEn("Ajax 1995 Shirt")
+                        .nameFr("Maillot Ajax 1995")
+                        .description("Camiseta retro del Ajax de la temporada 1994/95.")
+                        .descriptionEn("Retro Ajax shirt from the 1994/95 season.")
+                        .descriptionFr("Maillot rétro de l'Ajax de la saison 1994/95.")
+                        .team("Ajax")
+                        .teamEn("Ajax")
+                        .teamFr("Ajax")
+                        .era("1994/95")
+                        .size("M")
+                        .price(new BigDecimal("69.99"))
+                        .stock(7)
+                        .imageUrl("/images/ajax_1995.png")
+                        .league("Eredivisie")
+                        .leagueEn("Eredivisie")
+                        .leagueFr("Eredivisie")
+                        .retro(true)
+                        .build();
+
                 // Save all products to repository
-                productRepository.saveAll(List.of(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12));
+                productRepository.saveAll(List.of(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19));
             }
         };
     }

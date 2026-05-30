@@ -12,14 +12,10 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <!-- Brand name with translation -->
-<<<<<<< HEAD
         <a class="navbar-brand d-flex align-items-center" th:href="@{/(lang=${#locale.language})}">
             <img src="/images/retrogoal-icon.png" alt="RetroGoal logo" class="logo-icon">
             <span class="visually-hidden" th:text="#{navbar.retogoal}">RetroGoal</span>
         </a>
-=======
-        <a class="navbar-brand" th:href="@{/(lang=${#locale.language})}" href="/" th:text="#{navbar.retogoal}">RetroGoal</a>
->>>>>>> 8e1814b2cacaeaee1a0abe3e65beb24ede1f4c39
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -58,7 +54,6 @@
 <div class="container mt-4">
     <h1 th:text="#{product.catalog}">Catálogo</h1>
     <form class="row g-3 mb-3" method="get" action="/catalog">
-<<<<<<< HEAD
         <input type="hidden" name="lang" th:value="${#locale.language}">
 
         <!-- Search by product name, team or era -->
@@ -119,30 +114,6 @@
         </div>
 
         <div class="col-12 col-md-1 d-grid">
-=======
-        <div class="col-md-3">
-            <input type="text" name="search" class="form-control" th:placeholder="#{product.search_placeholder}">
-        </div>
-        <div class="col-md-2">
-            <input type="text" name="team" class="form-control" th:placeholder="#{product.team_placeholder}">
-        </div>
-        <div class="col-md-2">
-            <input type="text" name="era" class="form-control" th:placeholder="#{product.era_placeholder}">
-        </div>
-        <div class="col-md-2">
-            <select name="size" class="form-select">
-                <option value="" th:text="#{product.size}">Talla</option>
-                <option>S</option>
-                <option>M</option>
-                <option>L</option>
-                <option>XL</option>
-            </select>
-        </div>
-        <div class="col-md-2">
-            <input type="number" step="0.01" name="maxPrice" class="form-control" th:placeholder="#{product.max_price_placeholder}">
-        </div>
-        <div class="col-md-1">
->>>>>>> 8e1814b2cacaeaee1a0abe3e65beb24ede1f4c39
             <button type="submit" class="btn btn-primary" th:text="#{product.filter}">Filtrar</button>
         </div>
     </form>
@@ -153,10 +124,7 @@
                 <div class="card-body">
                     <h5 class="card-title" th:text="${product.getLocalizedName(#locale.language)}">Nombre del Producto</h5>
                     <p class="card-text" th:text="${product.getLocalizedTeam(#locale.language)} + ' (' + ${product.era} + ')'">Equipo/Era</p>
-<<<<<<< HEAD
                     <p class="card-text small text-muted"><span th:text="#{product.league}">Liga</span>: <span th:text="${product.getLocalizedLeague(#locale.language)}">Liga</span></p>
-=======
->>>>>>> 8e1814b2cacaeaee1a0abe3e65beb24ede1f4c39
                     <p class="card-text"><span th:text="#{product.size}">Talla</span>: <span th:text="${product.size}">M</span></p>
                     <p class="card-text fw-bold"><span th:text="#{product.price}">Precio</span>: <span th:text="${product.price}">0.00</span> €</p>
                     <form th:action="@{/cart/add}" method="post">
