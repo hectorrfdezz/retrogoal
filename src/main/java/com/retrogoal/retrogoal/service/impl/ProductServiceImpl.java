@@ -22,12 +22,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> searchByName(String name) {
-        return productRepository.findByNameContainingIgnoreCase(name);
+        return productRepository.findByNameContainingIgnoreCaseOrNameEnContainingIgnoreCaseOrNameFrContainingIgnoreCase(name, name, name);
     }
 
     @Override
     public List<Product> filterByTeam(String team) {
-        return productRepository.findByTeamContainingIgnoreCase(team);
+        return productRepository.findByTeamContainingIgnoreCaseOrTeamEnContainingIgnoreCaseOrTeamFrContainingIgnoreCase(team, team, team);
     }
 
     @Override
@@ -38,6 +38,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> filterBySize(String size) {
         return productRepository.findBySize(size);
+    }
+
+    @Override
+    public List<Product> filterByLeague(String league) {
+        return productRepository.findByLeagueIgnoreCase(league);
+    }
+
+    @Override
+    public List<Product> filterByRetro(boolean retro) {
+        return productRepository.findByRetro(retro);
     }
 
     @Override

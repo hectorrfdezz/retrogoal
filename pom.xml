@@ -70,16 +70,12 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <!-- Stripe Java SDK (optional) for payment integration -->
+
+        <!-- Stripe Java SDK for Stripe Checkout payments -->
         <dependency>
             <groupId>com.stripe</groupId>
             <artifactId>stripe-java</artifactId>
-            <version>24.5.0</version>
-        </dependency>
-        <!-- Mail API (optional) for sending notifications) -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>25.6.0</version>
         </dependency>
         <!-- Testing dependencies -->
         <dependency>

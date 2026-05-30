@@ -7,11 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Handles product catalog display and product detail pages.
@@ -28,22 +29,68 @@ public class ProductController {
                                @RequestParam(required = false) String era,
                                @RequestParam(required = false) String size,
                                @RequestParam(required = false) BigDecimal maxPrice,
+                               @RequestParam(required = false) String league,
                                Model model) {
-        List<Product> products;
-        if (search != null && !search.isEmpty()) {
-            products = productService.searchByName(search);
-        } else if (team != null && !team.isEmpty()) {
-            products = productService.filterByTeam(team);
-        } else if (era != null && !era.isEmpty()) {
-            products = productService.filterByEra(era);
-        } else if (size != null && !size.isEmpty()) {
-            products = productService.filterBySize(size);
-        } else if (maxPrice != null) {
-            products = productService.filterByMaxPrice(maxPrice);
-        } else {
-            products = productService.findAll();
-        }
+        List<Product> allProducts = productService.findAll();
+
+        String searchText = normalize(search);
+        String teamText = normalize(team);
+        String selectedLeague = normalize(league);
+        String selectedEra = normalize(era);
+        String selectedSize = normalize(size);
+
+        boolean teamFilterActive = hasText(teamText) || hasText(searchText);
+
+        // Build the list of eras only after the user searches/selects a team. This keeps the season filter meaningful:
+        // for example, if the user types "Barcelona", the dropdown shows only Barcelona seasons available in the shop.
+        List<String> availableEras = teamFilterActive
+                ? allProducts.stream()
+                    .filter(product -> !hasText(selectedLeague) || equalsIgnoreCase(product.getLeague(), selectedLeague))
+                    .filter(product -> matchesTeamOrSearch(product, teamText, searchText))
+                    .map(Product::getEra)
+                    .filter(Objects::nonNull)
+                    .filter(value -> !value.isBlank())
+                    .distinct()
+                    .sorted()
+                    .collect(Collectors.toList())
+                : List.of();
+
+        List<Product> products = allProducts.stream()
+                // League filter works independently: LaLiga -> Barça/Real Madrid, Bundesliga -> Bayern, Ligue 1 -> PSG, etc.
+                .filter(product -> !hasText(selectedLeague) || equalsIgnoreCase(product.getLeague(), selectedLeague))
+                // Search by product name/team/season.
+                .filter(product -> !hasText(searchText) || matchesText(product, searchText))
+                // Explicit team filter.
+                .filter(product -> !hasText(teamText) || matchesTeam(product, teamText))
+                // Era/season is only applied when a team/search has already narrowed the catalogue.
+                .filter(product -> !teamFilterActive || !hasText(selectedEra) || equalsIgnoreCase(product.getEra(), selectedEra))
+                .filter(product -> !hasText(selectedSize) || equalsIgnoreCase(product.getSize(), selectedSize))
+                .filter(product -> maxPrice == null || product.getPrice().compareTo(maxPrice) <= 0)
+                .collect(Collectors.toList());
+
         model.addAttribute("products", products);
+        model.addAttribute("leagues", allProducts.stream()
+                .map(Product::getLeague)
+                .filter(Objects::nonNull)
+                .filter(value -> !value.isBlank())
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList()));
+        model.addAttribute("teams", allProducts.stream()
+                .map(Product::getTeam)
+                .filter(Objects::nonNull)
+                .filter(value -> !value.isBlank())
+                .distinct()
+                .sorted(String.CASE_INSENSITIVE_ORDER)
+                .collect(Collectors.toList()));
+        model.addAttribute("availableEras", availableEras);
+        model.addAttribute("teamFilterActive", teamFilterActive);
+        model.addAttribute("selectedSearch", searchText);
+        model.addAttribute("selectedTeam", teamText);
+        model.addAttribute("selectedEra", selectedEra);
+        model.addAttribute("selectedSize", selectedSize);
+        model.addAttribute("selectedLeague", selectedLeague);
+        model.addAttribute("selectedMaxPrice", maxPrice);
         return "catalog";
     }
 
@@ -55,5 +102,45 @@ public class ProductController {
         }
         model.addAttribute("product", product);
         return "product";
+    }
+
+    private String normalize(String value) {
+        return value == null ? "" : value.trim();
+    }
+
+    private boolean hasText(String value) {
+        return value != null && !value.isBlank();
+    }
+
+    private boolean containsIgnoreCase(String source, String query) {
+        return source != null && query != null && source.toLowerCase().contains(query.toLowerCase());
+    }
+
+    private boolean equalsIgnoreCase(String source, String query) {
+        return source != null && query != null && source.equalsIgnoreCase(query);
+    }
+
+    private boolean matchesTeam(Product product, String query) {
+        return containsIgnoreCase(product.getTeam(), query)
+                || containsIgnoreCase(product.getTeamEn(), query)
+                || containsIgnoreCase(product.getTeamFr(), query);
+    }
+
+    private boolean matchesText(Product product, String query) {
+        return containsIgnoreCase(product.getName(), query)
+                || containsIgnoreCase(product.getNameEn(), query)
+                || containsIgnoreCase(product.getNameFr(), query)
+                || containsIgnoreCase(product.getTeam(), query)
+                || containsIgnoreCase(product.getTeamEn(), query)
+                || containsIgnoreCase(product.getTeamFr(), query)
+                || containsIgnoreCase(product.getEra(), query)
+                || containsIgnoreCase(product.getLeague(), query);
+    }
+
+    private boolean matchesTeamOrSearch(Product product, String teamText, String searchText) {
+        if (hasText(teamText)) {
+            return matchesTeam(product, teamText);
+        }
+        return matchesText(product, searchText);
     }
 }

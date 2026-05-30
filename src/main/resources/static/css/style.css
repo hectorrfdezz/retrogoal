@@ -1,0 +1,147 @@
+/* Global typography and colors */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #0b0d17;
+    color: #f8f9fa;
+}
+
+/* Navbar styling */
+.navbar {
+    background-color: #000000 !important;
+}
+.navbar-brand, .nav-link {
+    color: #f8f9fa !important;
+}
+.nav-link:hover {
+    color: #00c6ff !important;
+}
+
+/* Hero section with gradient background and call to action */
+.hero-section {
+    background: linear-gradient(135deg, #050505 0%, #1d1d1d 100%);
+    color: #f8f9fa;
+    padding: 100px 0;
+    text-align: center;
+}
+.hero-section h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+.hero-section p {
+    font-size: 1.25rem;
+    margin-bottom: 30px;
+}
+.hero-btn {
+    background-color: #17a2b8;
+    color: #fff;
+    border-radius: 30px;
+    padding: 14px 35px;
+    font-size: 1.1rem;
+    text-decoration: none;
+}
+.hero-btn:hover {
+    background-color: #138496;
+    color: #fff;
+}
+
+/* Card styling for products */
+.card {
+    background-color: #1e1f29;
+    border: none;
+    border-radius: 12px;
+    transition: transform .3s, box-shadow .3s;
+}
+.card .card-title,
+.card .card-text {
+    color: #f8f9fa;
+}
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Footer styles */
+.footer {
+    background-color: #000000;
+    color: #f8f9fa;
+    padding: 40px 0 28px;
+    text-align: center;
+    margin-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+.footer a {
+    color: #f8f9fa;
+}
+.footer a:hover {
+    color: #00c6ff;
+}
+.footer .btn-primary {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+.footer .btn-primary:hover {
+    background-color: #138496;
+    border-color: #138496;
+}
+
+/* Google Maps page */
+.map-hero {
+    background: linear-gradient(135deg, #101522 0%, #1e293b 100%);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+}
+
+.map-card,
+.map-info-card {
+    background-color: #1e1f29;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+}
+
+.map-info-card {
+    padding: 28px;
+}
+
+.google-map {
+    width: 100%;
+    height: 480px;
+    min-height: 360px;
+}
+
+/* Logo icon styling for navbar */
+/* Set explicit size for logo icons to avoid cropping while preserving the aspect ratio. */
+.logo-icon {
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+    object-fit: contain;
+}
+
+/* Hero logo styling for the homepage */
+.hero-logo {
+    max-width: 350px;
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 576px) {
+    .hero-logo {
+        max-width: 250px;
+    }
+}
+
+/* Visually hidden utility class for accessibility */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}

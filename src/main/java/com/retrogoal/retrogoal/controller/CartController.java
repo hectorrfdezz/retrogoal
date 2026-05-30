@@ -8,6 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Handles shopping cart related actions.
  */
@@ -21,7 +25,29 @@ public class CartController {
 
     @GetMapping
     public String viewCart(Model model) {
-        model.addAttribute("cartItems", cartService.getItems());
+        Map<Product, Integer> items = cartService.getItems();
+        Map<Long, BigDecimal> lineTotals = new HashMap<>();
+        BigDecimal cartTotal = BigDecimal.ZERO;
+
+        for (Map.Entry<Product, Integer> entry : items.entrySet()) {
+            Product product = entry.getKey();
+            Integer quantity = entry.getValue();
+
+            if (product == null || product.getId() == null || product.getPrice() == null || quantity == null) {
+                continue;
+            }
+
+            BigDecimal lineTotal = product.getPrice().multiply(BigDecimal.valueOf(quantity.longValue()));
+            lineTotals.put(product.getId(), lineTotal);
+            cartTotal = cartTotal.add(lineTotal);
+        }
+
+        BigDecimal shipping = new BigDecimal("5.00");
+        model.addAttribute("cartItems", items);
+        model.addAttribute("lineTotals", lineTotals);
+        model.addAttribute("cartTotal", cartTotal);
+        model.addAttribute("shipping", shipping);
+        model.addAttribute("finalTotal", cartTotal.add(shipping));
         return "cart";
     }
 

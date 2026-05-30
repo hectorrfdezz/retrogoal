@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,11 +48,27 @@
                 <input type="text" id="imageUrl" th:field="*{imageUrl}" class="form-control">
             </div>
         </div>
+
+        <!-- Additional fields for league and retro flag -->
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="league" class="form-label">Liga</label>
+                <input type="text" id="league" th:field="*{league}" class="form-control" placeholder="Ej.: LaLiga, Premier League">
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="retro" class="form-label">Retro</label>
+                <select id="retro" th:field="*{retro}" class="form-select">
+                    <option th:value="false">Actual</option>
+                    <option th:value="true">Retro</option>
+                </select>
+            </div>
+        </div>
         <button type="submit" class="btn btn-primary">Guardar</button>
         <a href="/admin" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
