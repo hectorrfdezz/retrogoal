@@ -10,7 +10,7 @@
 <div class="container mt-4">
     <h1>Detalle del pedido</h1>
     <p><strong>ID:</strong> <span th:text="${order.id}">0</span></p>
-    <p><strong>Cliente:</strong> <span th:text="${order.user.email}">cliente@example.com</span></p>
+    <p><strong>Cliente:</strong> <span th:text="${order.user != null ? order.user.email : 'Usuario eliminado'}">cliente@example.com</span></p>
     <p><strong>Fecha:</strong> <span th:text="${#temporals.format(order.orderDate, 'dd/MM/yyyy HH:mm')}">--</span></p>
     <p><strong>Dirección de envío:</strong> <span th:text="${order.shippingAddress}">--</span></p>
     <h4>Artículos</h4>

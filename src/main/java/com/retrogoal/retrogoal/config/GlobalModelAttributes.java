@@ -45,4 +45,20 @@ public class GlobalModelAttributes {
         cartPersistenceService.loadCurrentUserCartIfSessionEmpty(cartService);
         return cartService.getItems().values().stream().mapToInt(Integer::intValue).sum();
     }
+
+    /**
+     * Indicates whether the current user has ROLE_ADMIN. Used by the navbar to show admin links.
+     */
+    @ModelAttribute("currentUserIsAdmin")
+    public boolean currentUserIsAdmin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()
+                || authentication.getPrincipal() == null
+                || "anonymousUser".equals(authentication.getPrincipal())) {
+            return false;
+        }
+        return authentication.getAuthorities().stream()
+                .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+    }
+
 }

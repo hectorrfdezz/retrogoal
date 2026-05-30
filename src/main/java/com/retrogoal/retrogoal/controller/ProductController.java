@@ -1,7 +1,10 @@
 package com.retrogoal.retrogoal.controller;
 
 import com.retrogoal.retrogoal.model.Product;
+import com.retrogoal.retrogoal.model.User;
+import com.retrogoal.retrogoal.service.CartPersistenceService;
 import com.retrogoal.retrogoal.service.ProductService;
+import com.retrogoal.retrogoal.service.RecentSearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +26,8 @@ import java.util.stream.Collectors;
 public class ProductController {
 
     private final ProductService productService;
+    private final RecentSearchService recentSearchService;
+    private final CartPersistenceService cartPersistenceService;
 
     @GetMapping("/catalog")
     public String listProducts(@RequestParam(required = false) String search,
@@ -41,6 +46,14 @@ public class ProductController {
         String selectedSize = normalize(size);
 
         boolean teamFilterActive = hasText(teamText) || hasText(searchText);
+
+        cartPersistenceService.currentUser().ifPresent(user -> {
+            if (hasText(searchText)) {
+                recentSearchService.registerSearch(user, searchText);
+            } else if (hasText(teamText)) {
+                recentSearchService.registerSearch(user, teamText);
+            }
+        });
 
         // Build the list of eras only after the user searches/selects a team. This keeps the season filter meaningful:
         // for example, if the user types "Barcelona", the dropdown shows only Barcelona seasons available in the shop.
@@ -92,6 +105,9 @@ public class ProductController {
         model.addAttribute("selectedSize", selectedSize);
         model.addAttribute("selectedLeague", selectedLeague);
         model.addAttribute("selectedMaxPrice", maxPrice);
+        model.addAttribute("recentSearches", cartPersistenceService.currentUser()
+                .map(recentSearchService::findLastThree)
+                .orElse(List.of()));
         return "catalog";
     }
 

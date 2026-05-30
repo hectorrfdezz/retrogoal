@@ -44,7 +44,10 @@ public class DataInitializer {
                         .email("admin@retrogoal.com")
                         .password(passwordEncoder.encode("admin123"))
                         .name("Admin User")
-                        .roles(Set.of(adminRole))
+                        .firstName("Admin")
+                        .lastName("RetroGoal")
+                        .phone("600000000")
+                        .roles(Set.of(adminRole, userRole))
                         .build();
                 userRepository.save(admin);
             }

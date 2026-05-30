@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
                 .email(registrationDto.getEmail())
                 .password(passwordEncoder.encode(registrationDto.getPassword()))
                 .name(registrationDto.getName())
+                .firstName(registrationDto.getName())
                 .roles(Collections.singleton(userRole))
                 .build();
         return userRepository.save(user);
@@ -49,4 +50,39 @@ public class UserServiceImpl implements UserService {
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalStateException("User not found"));
+    }
+
+    @Override
+    @Transactional
+    public User updateProfile(String email, String name, String firstName, String lastName, String phone) {
+        User user = findByEmail(email);
+        user.setName(name);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setPhone(phone);
+        return userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void changePassword(String email, String currentPassword, String newPassword, String confirmPassword) {
+        User user = findByEmail(email);
+        if (currentPassword == null || !passwordEncoder.matches(currentPassword, user.getPassword())) {
+            throw new IllegalStateException("La contraseña actual no es correcta");
+        }
+        if (newPassword == null || newPassword.length() < 6) {
+            throw new IllegalStateException("La nueva contraseña debe tener al menos 6 caracteres");
+        }
+        if (!newPassword.equals(confirmPassword)) {
+            throw new IllegalStateException("Las nuevas contraseñas no coinciden");
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
 }

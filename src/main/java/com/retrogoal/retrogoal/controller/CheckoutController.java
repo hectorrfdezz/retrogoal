@@ -7,6 +7,7 @@ import com.retrogoal.retrogoal.model.User;
 import com.retrogoal.retrogoal.service.CartPersistenceService;
 import com.retrogoal.retrogoal.service.CartService;
 import com.retrogoal.retrogoal.service.OrderService;
+import com.retrogoal.retrogoal.service.EmailService;
 import com.retrogoal.retrogoal.service.StripeCheckoutService;
 import com.stripe.model.checkout.Session;
 import jakarta.validation.constraints.NotBlank;
@@ -37,6 +38,7 @@ public class CheckoutController {
     private final CartPersistenceService cartPersistenceService;
     private final OrderService orderService;
     private final StripeCheckoutService stripeCheckoutService;
+    private final EmailService emailService;
 
     @GetMapping
     public String showCheckout(Model model) {
@@ -108,6 +110,9 @@ public class CheckoutController {
 
             if ("paid".equalsIgnoreCase(session.getPaymentStatus())) {
                 order = orderService.updateStatus(orderId, OrderStatus.PAID);
+                if (order.getUser() != null) {
+                    emailService.sendPaymentConfirmation(order.getUser().getEmail(), order);
+                }
                 cartPersistenceService.currentUser().ifPresent(cartPersistenceService::clear);
                 cartService.clear();
             }

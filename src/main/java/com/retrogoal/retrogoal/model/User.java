@@ -37,9 +37,26 @@ public class User implements UserDetails {
     private String password;
 
     /**
-     * Optional display name.
+     * Display name shown in the application.
      */
     private String name;
+
+    /**
+     * First name used in the profile/settings page.
+     */
+    @Column(name = "first_name")
+    private String firstName;
+
+    /**
+     * Optional last name used in the profile/settings page.
+     */
+    @Column(name = "last_name")
+    private String lastName;
+
+    /**
+     * Optional phone number for customer contact.
+     */
+    private String phone;
 
     /**
      * Set of roles associated to the user.

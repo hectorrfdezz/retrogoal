@@ -1,0 +1,9 @@
+# Cambia estas líneas en src/main/resources/application.properties si quieres usar MySQL en lugar de H2.
+# Crea antes la base de datos ejecutando docs/sql/mysql_schema_retrogoal.sql.
+
+spring.datasource.url=jdbc:mysql://localhost:3306/retrogoal?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.username=root
+spring.datasource.password=TU_PASSWORD_MYSQL
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true

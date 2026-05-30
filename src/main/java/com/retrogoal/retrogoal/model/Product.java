@@ -1,6 +1,10 @@
 package com.retrogoal.retrogoal.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -24,12 +28,14 @@ public class Product {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @NotBlank(message = "El nombre de la camiseta es obligatorio")
     @Column(nullable = false)
     private String name;
 
     @Column(length = 2048)
     private String description;
 
+    @NotBlank(message = "El equipo es obligatorio")
     private String team;
 
     @Column(name = "name_en")
@@ -63,12 +69,15 @@ public class Product {
     /**
      * Unit price of the product.
      */
+    @NotNull(message = "El precio es obligatorio")
+    @DecimalMin(value = "0.0", inclusive = true, message = "El precio no puede ser negativo")
     @Column(nullable = false)
     private BigDecimal price;
 
     /**
      * Available stock quantity.
      */
+    @Min(value = 0, message = "El stock no puede ser negativo")
     private int stock;
 
     /**
