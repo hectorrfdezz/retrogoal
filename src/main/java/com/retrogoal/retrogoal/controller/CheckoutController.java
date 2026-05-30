@@ -4,6 +4,7 @@ import com.retrogoal.retrogoal.model.Order;
 import com.retrogoal.retrogoal.model.OrderStatus;
 import com.retrogoal.retrogoal.model.Product;
 import com.retrogoal.retrogoal.model.User;
+import com.retrogoal.retrogoal.service.CartPersistenceService;
 import com.retrogoal.retrogoal.service.CartService;
 import com.retrogoal.retrogoal.service.OrderService;
 import com.retrogoal.retrogoal.service.StripeCheckoutService;
@@ -33,11 +34,14 @@ import java.util.Map;
 public class CheckoutController {
 
     private final CartService cartService;
+    private final CartPersistenceService cartPersistenceService;
     private final OrderService orderService;
     private final StripeCheckoutService stripeCheckoutService;
 
     @GetMapping
     public String showCheckout(Model model) {
+        cartPersistenceService.currentUser()
+                .ifPresent(user -> cartPersistenceService.loadPersistedCartIntoSession(user, cartService));
         addCartModelAttributes(model, cartService.getItems());
         return "checkout";
     }
@@ -104,6 +108,7 @@ public class CheckoutController {
 
             if ("paid".equalsIgnoreCase(session.getPaymentStatus())) {
                 order = orderService.updateStatus(orderId, OrderStatus.PAID);
+                cartPersistenceService.currentUser().ifPresent(cartPersistenceService::clear);
                 cartService.clear();
             }
 

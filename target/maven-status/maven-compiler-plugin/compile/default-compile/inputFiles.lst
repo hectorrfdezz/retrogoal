@@ -1,6 +1,9 @@
+D:\retrogoal\src\main\java\com\retrogoal\retrogoal\model\CartItem.java
 D:\retrogoal\src\main\java\com\retrogoal\retrogoal\config\SecurityConfig.java
 D:\retrogoal\src\main\java\com\retrogoal\retrogoal\model\Role.java
+D:\retrogoal\src\main\java\com\retrogoal\retrogoal\service\CartPersistenceService.java
 D:\retrogoal\src\main\java\com\retrogoal\retrogoal\dto\UserRegistrationDto.java
+D:\retrogoal\src\main\java\com\retrogoal\retrogoal\repository\CartItemRepository.java
 D:\retrogoal\src\main\java\com\retrogoal\retrogoal\repository\RoleRepository.java
 D:\retrogoal\src\main\java\com\retrogoal\retrogoal\service\OrderService.java
 D:\retrogoal\src\main\java\com\retrogoal\retrogoal\controller\AuthController.java

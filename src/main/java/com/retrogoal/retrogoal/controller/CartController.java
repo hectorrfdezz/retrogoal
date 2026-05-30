@@ -1,6 +1,8 @@
 package com.retrogoal.retrogoal.controller;
 
 import com.retrogoal.retrogoal.model.Product;
+import com.retrogoal.retrogoal.model.User;
+import com.retrogoal.retrogoal.service.CartPersistenceService;
 import com.retrogoal.retrogoal.service.CartService;
 import com.retrogoal.retrogoal.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +24,12 @@ public class CartController {
 
     private final CartService cartService;
     private final ProductService productService;
+    private final CartPersistenceService cartPersistenceService;
 
     @GetMapping
     public String viewCart(Model model) {
+        cartPersistenceService.currentUser()
+                .ifPresent(user -> cartPersistenceService.loadPersistedCartIntoSession(user, cartService));
         Map<Product, Integer> items = cartService.getItems();
         Map<Long, BigDecimal> lineTotals = new HashMap<>();
         BigDecimal cartTotal = BigDecimal.ZERO;
@@ -57,6 +62,8 @@ public class CartController {
         Product product = productService.findById(productId);
         if (product != null) {
             cartService.addItem(product, quantity);
+            cartPersistenceService.currentUser()
+                    .ifPresent(user -> cartPersistenceService.addOrIncrement(user, product, quantity));
         }
         return "redirect:/cart";
     }
@@ -67,6 +74,8 @@ public class CartController {
         Product product = productService.findById(productId);
         if (product != null) {
             cartService.updateQuantity(product, quantity);
+            cartPersistenceService.currentUser()
+                    .ifPresent(user -> cartPersistenceService.updateQuantity(user, product, quantity));
         }
         return "redirect:/cart";
     }
@@ -76,6 +85,8 @@ public class CartController {
         Product product = productService.findById(productId);
         if (product != null) {
             cartService.removeItem(product);
+            cartPersistenceService.currentUser()
+                    .ifPresent(user -> cartPersistenceService.remove(user, product));
         }
         return "redirect:/cart";
     }

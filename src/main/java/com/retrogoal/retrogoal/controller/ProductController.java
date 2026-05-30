@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -100,7 +101,20 @@ public class ProductController {
         if (product == null) {
             return "redirect:/catalog?notfound";
         }
+        List<Product> availableRecommendations = new ArrayList<>(productService.findAll().stream()
+                .filter(candidate -> candidate.getId() != null && !candidate.getId().equals(product.getId()))
+                .sorted((a, b) -> a.getId().compareTo(b.getId()))
+                .collect(Collectors.toList()));
+        List<Product> recommendations = new ArrayList<>();
+        if (!availableRecommendations.isEmpty()) {
+            int startIndex = (int) ((product.getId() == null ? 0 : product.getId() * 3) % availableRecommendations.size());
+            for (int i = 0; i < Math.min(3, availableRecommendations.size()); i++) {
+                recommendations.add(availableRecommendations.get((startIndex + i) % availableRecommendations.size()));
+            }
+        }
+
         model.addAttribute("product", product);
+        model.addAttribute("recommendedProducts", recommendations);
         return "product";
     }
 

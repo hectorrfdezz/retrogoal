@@ -108,7 +108,7 @@
     <hr>
     <h4 th:text="#{product.recommended}">También te puede interesar</h4>
     <div class="row">
-        <div class="col-6 col-md-3 mb-3" th:each="rec : ${product.recommendedProducts}">
+        <div class="col-12 col-md-4 mb-3" th:each="rec : ${recommendedProducts}">
             <div class="card h-100">
                 <img th:src="${rec.imageUrl}" class="card-img-top" th:alt="#{product.image_alt}">
                 <div class="card-body">

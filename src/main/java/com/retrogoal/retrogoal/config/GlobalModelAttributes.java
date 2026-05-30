@@ -1,5 +1,6 @@
 package com.retrogoal.retrogoal.config;
 
+import com.retrogoal.retrogoal.service.CartPersistenceService;
 import com.retrogoal.retrogoal.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 public class GlobalModelAttributes {
 
     private final CartService cartService;
+    private final CartPersistenceService cartPersistenceService;
 
     /**
      * Returns the email of the currently authenticated user or null if no user is logged in.
@@ -40,6 +42,7 @@ public class GlobalModelAttributes {
      */
     @ModelAttribute("cartItemCount")
     public int cartItemCount() {
+        cartPersistenceService.loadCurrentUserCartIfSessionEmpty(cartService);
         return cartService.getItems().values().stream().mapToInt(Integer::intValue).sum();
     }
 }
