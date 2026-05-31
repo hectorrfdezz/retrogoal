@@ -4,7 +4,10 @@
 --   email: admin@retrogoal.com
 --   password: admin123
 
-CREATE DATABASE IF NOT EXISTS retrogoal CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS retrogoal
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
 USE retrogoal;
 
 CREATE TABLE IF NOT EXISTS roles (
@@ -110,13 +113,44 @@ CREATE TABLE IF NOT EXISTS recent_searches (
     CONSTRAINT fk_recent_search_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
-INSERT IGNORE INTO roles (id, name) VALUES (1, 'ROLE_USER'), (2, 'ROLE_ADMIN');
+INSERT IGNORE INTO roles (id, name)
+VALUES 
+(1, 'ROLE_USER'),
+(2, 'ROLE_ADMIN');
 
--- Hash BCrypt para admin123.
+-- Usuario administrador
+-- Email: hectorrf.correo@gmail.com
+-- Contraseña: Goatclover
 INSERT INTO users (email, password, name, first_name, last_name, phone)
-VALUES ('admin@retrogoal.com', '$2y$10$yCBny7tY9KOWPqumRLEfsu4XOcfv1ieH4Zu3Ago3uq8pnWMcII.bC', 'Admin User', 'Admin', 'RetroGoal', '600000000')
-ON DUPLICATE KEY UPDATE name = VALUES(name), first_name = VALUES(first_name), last_name = VALUES(last_name), phone = VALUES(phone);
+VALUES (
+    'hectorrf.correo@gmail.com',
+    '$2y$10$8xcCuY.eESyWXlLynWqSGO8q2oy5hiWszKu6gRU3H1g0Hs.FWEUam',
+    'Héctor Admin',
+    'Héctor',
+    'Admin',
+    NULL
+)
+ON DUPLICATE KEY UPDATE
+    password = VALUES(password),
+    name = VALUES(name),
+    first_name = VALUES(first_name),
+    last_name = VALUES(last_name),
+    phone = VALUES(phone);
 
 INSERT IGNORE INTO users_roles (user_id, role_id)
-SELECT u.id, r.id FROM users u CROSS JOIN roles r
-WHERE u.email = 'admin@retrogoal.com' AND r.name IN ('ROLE_USER', 'ROLE_ADMIN');
+SELECT u.id, r.id
+FROM users u
+JOIN roles r ON r.name = 'ROLE_USER'
+WHERE u.email = 'hectorrf.correo@gmail.com';
+
+INSERT IGNORE INTO users_roles (user_id, role_id)
+SELECT u.id, r.id
+FROM users u
+JOIN roles r ON r.name = 'ROLE_ADMIN'
+WHERE u.email = 'hectorrf.correo@gmail.com';
+
+SELECT u.email, r.name AS role_name
+FROM users u
+JOIN users_roles ur ON u.id = ur.user_id
+JOIN roles r ON ur.role_id = r.id
+WHERE u.email = 'hectorrf.correo@gmail.com';
