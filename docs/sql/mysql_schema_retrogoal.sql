@@ -1,9 +1,3 @@
--- RetroGoal MySQL schema
--- Ejecutar en MySQL Workbench o consola MySQL.
--- Usuario admin inicial:
---   email: admin@retrogoal.com
---   password: admin123
-
 CREATE DATABASE IF NOT EXISTS retrogoal
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
