@@ -1,34 +1,31 @@
 <!DOCTYPE html>
-<div th:fragment="footer">
+<div th:fragment="footer" xmlns:th="http://www.thymeleaf.org">
     <footer class="footer" style="background-color: #000000; color: #f8f9fa;">
         <div class="container">
             <div class="row">
-                <!-- Left column: Logo and contact -->
                 <div class="col-md-4 mb-3">
                     <img src="/images/retrogoal-icon.png" alt="RetroGoal logo" class="mb-2" style="max-width: 50px; height: auto;">
                     <h5 class="text-light">RetroGoal</h5>
-                    <p>Venta de camisetas de fútbol retro y actuales.</p>
+                    <p th:text="#{footer.description}">Venta de camisetas de fútbol retro y actuales.</p>
                     <p><a href="mailto:hramfer634@g.educaand.es" class="text-decoration-none text-light">hramfer634@g.educaand.es</a></p>
                 </div>
-                <!-- Middle column: social links -->
                 <div class="col-md-4 mb-3">
-                    <h5>Síguenos</h5>
+                    <h5 th:text="#{footer.follow}">Síguenos</h5>
                     <p class="mb-1"><a href="https://www.instagram.com/neymarjr/?hl=es" target="_blank" rel="noopener noreferrer" class="text-light text-decoration-none">Instagram</a></p>
                     <p class="mb-1"><a href="https://x.com/neymarjr" target="_blank" rel="noopener noreferrer" class="text-light text-decoration-none">Twitter / X</a></p>
                     <p><a href="https://www.facebook.com/neymarjr/?locale=es_ES" target="_blank" rel="noopener noreferrer" class="text-light text-decoration-none">Facebook</a></p>
                 </div>
-                <!-- Right column: newsletter -->
                 <div class="col-md-4 mb-3">
-                    <h5>Suscríbete</h5>
+                    <h5 th:text="#{footer.subscribe}">Suscríbete</h5>
                     <form action="#" method="post">
                         <div class="input-group">
-                            <input type="email" class="form-control" placeholder="Tu correo electrónico" required>
-                            <button class="btn btn-primary" type="submit">Enviar</button>
+                            <input type="email" class="form-control" th:placeholder="#{footer.email_placeholder}" placeholder="Tu correo electrónico" required>
+                            <button class="btn btn-primary" type="submit" th:text="#{footer.send}">Enviar</button>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="text-center border-top pt-3 mt-3">
+            <div class="text-center border-top pt-3 mt-3" th:text="#{footer.rights}">
                 © 2026 RetroGoal. Todos los derechos reservados.
             </div>
         </div>

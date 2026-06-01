@@ -17,8 +17,10 @@ com\retrogoal\retrogoal\config\StripeConfig.class
 com\retrogoal\retrogoal\repository\OrderRepository.class
 com\retrogoal\retrogoal\dto\UserRegistrationDto.class
 com\retrogoal\retrogoal\model\User$UserBuilder.class
+com\retrogoal\retrogoal\exception\GlobalExceptionHandler.class
 com\retrogoal\retrogoal\repository\ProductRepository.class
 com\retrogoal\retrogoal\controller\MapController.class
+com\retrogoal\retrogoal\exception\CustomErrorController.class
 com\retrogoal\retrogoal\repository\RoleRepository.class
 com\retrogoal\retrogoal\service\StripeCheckoutService.class
 com\retrogoal\retrogoal\config\WebConfig.class

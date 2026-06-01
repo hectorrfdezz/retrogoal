@@ -65,8 +65,32 @@ public class AdminController {
     /*--- Product management ---*/
 
     @GetMapping("/products")
-    public String productsRedirect() {
-        return "redirect:/admin";
+    public String productsPage(Model model) {
+        model.addAttribute("products", productService.findAll());
+        return "admin/products";
+    }
+
+    @GetMapping("/users")
+    public String usersPage(Model model) {
+        model.addAttribute("users", userRepository.findAll());
+        return "admin/users";
+    }
+
+    @GetMapping("/admins")
+    public String adminsPage(Model model) {
+        List<User> users = userRepository.findAll();
+        List<User> admins = users.stream()
+                .filter(user -> user.getRoles() != null && user.getRoles().stream()
+                        .anyMatch(role -> "ROLE_ADMIN".equals(role.getName())))
+                .collect(Collectors.toList());
+        model.addAttribute("admins", admins);
+        return "admin/admins";
+    }
+
+    @GetMapping("/orders")
+    public String ordersPage(Model model) {
+        model.addAttribute("orders", orderService.findAllOrders());
+        return "admin/orders";
     }
 
     @GetMapping("/products/new")

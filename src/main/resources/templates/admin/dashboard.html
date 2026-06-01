@@ -21,6 +21,9 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" th:href="@{/catalog(lang=${#locale.language})}">Catálogo</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/admin}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/admin/products}">Camisetas</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/admin/orders}">Pedidos</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/admin/users}">Usuarios</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/admin/products/new}">Nueva Camiseta</a></li>
             </ul>
             <ul class="navbar-nav ms-auto">
@@ -41,19 +44,19 @@
     </div>
 
     <div class="row g-3 mb-4">
-        <div class="col-6 col-lg-2"><div class="card bg-dark text-light border-secondary"><div class="card-body"><small>Usuarios</small><h3 th:text="${totalUsers}">0</h3></div></div></div>
-        <div class="col-6 col-lg-2"><div class="card bg-dark text-light border-secondary"><div class="card-body"><small>Administradores</small><h3 th:text="${totalAdmins}">0</h3></div></div></div>
-        <div class="col-6 col-lg-2"><div class="card bg-dark text-light border-secondary"><div class="card-body"><small>Camisetas</small><h3 th:text="${totalProducts}">0</h3></div></div></div>
+        <div class="col-6 col-lg-2"><a class="text-decoration-none" th:href="@{/admin/users}"><div class="card bg-dark text-light border-secondary h-100"><div class="card-body"><small>Usuarios</small><h3 th:text="${totalUsers}">0</h3><small class="text-info">Ver tabla</small></div></div></a></div>
+        <div class="col-6 col-lg-2"><a class="text-decoration-none" th:href="@{/admin/admins}"><div class="card bg-dark text-light border-secondary h-100"><div class="card-body"><small>Administradores</small><h3 th:text="${totalAdmins}">0</h3><small class="text-info">Ver tabla</small></div></div></a></div>
+        <div class="col-6 col-lg-2"><a class="text-decoration-none" th:href="@{/admin/products}"><div class="card bg-dark text-light border-secondary h-100"><div class="card-body"><small>Camisetas</small><h3 th:text="${totalProducts}">0</h3><small class="text-info">Ver tabla</small></div></div></a></div>
         <div class="col-6 col-lg-2"><div class="card bg-dark text-light border-secondary"><div class="card-body"><small>Stock total</small><h3 th:text="${totalStock}">0</h3></div></div></div>
-        <div class="col-6 col-lg-2"><div class="card bg-dark text-light border-secondary"><div class="card-body"><small>Pedidos</small><h3 th:text="${totalOrders}">0</h3></div></div></div>
+        <div class="col-6 col-lg-2"><a class="text-decoration-none" th:href="@{/admin/orders}"><div class="card bg-dark text-light border-secondary h-100"><div class="card-body"><small>Pedidos</small><h3 th:text="${totalOrders}">0</h3><small class="text-info">Ver tabla</small></div></div></a></div>
         <div class="col-6 col-lg-2"><div class="card bg-dark text-light border-secondary"><div class="card-body"><small>Ingresos</small><h3><span th:text="${totalSales}">0</span> €</h3></div></div></div>
     </div>
 
     <ul class="nav nav-tabs" id="adminTabs" role="tablist">
-        <li class="nav-item" role="presentation"><button class="nav-link active" id="products-tab" data-bs-toggle="tab" data-bs-target="#products" type="button" role="tab">Camisetas</button></li>
-        <li class="nav-item" role="presentation"><button class="nav-link" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab">Pedidos</button></li>
-        <li class="nav-item" role="presentation"><button class="nav-link" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab">Usuarios</button></li>
-        <li class="nav-item" role="presentation"><button class="nav-link" id="admins-tab" data-bs-toggle="tab" data-bs-target="#admins" type="button" role="tab">Administradores</button></li>
+        <li class="nav-item"><a class="nav-link active" th:href="@{/admin/products}">Camisetas</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/admin/orders}">Pedidos</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/admin/users}">Usuarios</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/admin/admins}">Administradores</a></li>
     </ul>
 
     <div class="tab-content bg-dark border border-secondary border-top-0 p-3" id="adminTabsContent">
@@ -90,7 +93,7 @@
                     <tr th:each="order : ${orders}">
                         <td th:text="${order.id}">1</td>
                         <td th:text="${order.user != null ? order.user.email : 'Usuario eliminado'}">cliente@example.com</td>
-                        <td th:text="${#temporals.format(order.orderDate, 'dd/MM/yyyy HH:mm')}">--</td>
+                        <td th:text="${order.orderDate != null ? #temporals.format(order.orderDate, 'dd/MM/yyyy HH:mm') : '--'}">--</td>
                         <td th:text="${order.status}">PENDING</td>
                         <td><span th:text="${order.totalPrice}">0.00</span> €</td>
                         <td><a th:href="@{'/admin/orders/' + ${order.id}}" class="btn btn-secondary btn-sm">Ver</a></td>

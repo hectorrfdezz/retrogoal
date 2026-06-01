@@ -1,5 +1,6 @@
 D:\retrogoal\src\main\java\com\retrogoal\retrogoal\service\EmailService.java
 D:\retrogoal\src\main\java\com\retrogoal\retrogoal\model\CartItem.java
+D:\retrogoal\src\main\java\com\retrogoal\retrogoal\exception\GlobalExceptionHandler.java
 D:\retrogoal\src\main\java\com\retrogoal\retrogoal\model\RecentSearch.java
 D:\retrogoal\src\main\java\com\retrogoal\retrogoal\controller\AccountController.java
 D:\retrogoal\src\main\java\com\retrogoal\retrogoal\config\SecurityConfig.java
@@ -40,6 +41,7 @@ D:\retrogoal\src\main\java\com\retrogoal\retrogoal\service\ProductService.java
 D:\retrogoal\src\main\java\com\retrogoal\retrogoal\RetrogoalApplication.java
 D:\retrogoal\src\main\java\com\retrogoal\retrogoal\service\ProductAutoTranslationService.java
 D:\retrogoal\src\main\java\com\retrogoal\retrogoal\controller\ProductController.java
+D:\retrogoal\src\main\java\com\retrogoal\retrogoal\exception\CustomErrorController.java
 D:\retrogoal\src\main\java\com\retrogoal\retrogoal\config\StripeConfig.java
 D:\retrogoal\src\main\java\com\retrogoal\retrogoal\config\WebConfig.java
 D:\retrogoal\src\main\java\com\retrogoal\retrogoal\controller\AdminController.java
