@@ -78,6 +78,7 @@ public class CheckoutController {
         }
 
         try {
+            //Aquí el usuario abandona tu web y entra en la página de pago alojada por Stripe
             Order order = orderService.createOrder(user, items, form.getShippingAddress());
             Session session = stripeCheckoutService.createCheckoutSession(order, items, locale.getLanguage());
             return "redirect:" + session.getUrl();
@@ -91,6 +92,7 @@ public class CheckoutController {
     @GetMapping("/success")
     public String paymentSuccess(@RequestParam("session_id") String sessionId, Model model) {
         try {
+            //Recupera el pedido asociado
             Session session = stripeCheckoutService.retrieveSession(sessionId);
             String orderIdValue = session.getMetadata() != null ? session.getMetadata().get("orderId") : null;
 
@@ -107,8 +109,9 @@ public class CheckoutController {
                 model.addAttribute("error", "No se ha encontrado el pedido.");
                 return "checkout";
             }
-
+            //Comprobar si Stripe ha cobrado
             if ("paid".equalsIgnoreCase(session.getPaymentStatus())) {
+                //Cambiar el estado del pedido
                 order = orderService.updateStatus(orderId, OrderStatus.PAID);
                 if (order.getUser() != null) {
                     emailService.sendPaymentConfirmation(order.getUser().getEmail(), order);

@@ -168,10 +168,11 @@
                 <p class="text-light opacity-75" th:text="#{checkout.stripe_notice}">
                     Al continuar serás redirigido a Stripe para completar el pago de forma segura.
                 </p>
-
+                //Ese botón ejecuta el flujo: se envía una petición POST al controlador de checkout
                 <button type="submit" class="btn btn-success" th:text="#{checkout.pay_stripe}">
                     Pagar con Stripe
                 </button>
+                
             </form>
         </div>
     </div>

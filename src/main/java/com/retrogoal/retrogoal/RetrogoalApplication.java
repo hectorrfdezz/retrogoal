@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Entry point for the RetroGoal Spring Boot application.
+ * Sirve para arrancar toda la aplicación: mvn spring-boot:run
  */
 @SpringBootApplication
 public class RetrogoalApplication {

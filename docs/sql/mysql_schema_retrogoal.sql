@@ -112,9 +112,7 @@ VALUES
 (1, 'ROLE_USER'),
 (2, 'ROLE_ADMIN');
 
--- Usuario administrador
--- Email: hectorrf.correo@gmail.com
--- Contraseña: Goatclover
+
 INSERT INTO users (email, password, name, first_name, last_name, phone)
 VALUES (
     'hectorrf.correo@gmail.com',

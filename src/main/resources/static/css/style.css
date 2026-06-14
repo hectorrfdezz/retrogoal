@@ -215,10 +215,6 @@ body > .footer {
 }
 
 
-/* =========================================================
-   Accesibilidad
-   ========================================================= */
-
 /* Oculta texto visualmente, pero lo mantiene disponible para lectores de pantalla */
 .visually-hidden {
     position: absolute !important;

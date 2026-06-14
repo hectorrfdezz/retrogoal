@@ -16,6 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Bean
     public LocaleResolver localeResolver() {
+        //esto guarda el idioma en una cookie llamada RETROGOAL_LANG
         CookieLocaleResolver resolver = new CookieLocaleResolver("RETROGOAL_LANG");
         resolver.setDefaultLocale(Locale.forLanguageTag("es"));
         resolver.setCookieMaxAge(Duration.ofDays(30));
@@ -26,6 +27,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+        //esto permite cambiar el idioma a través del parámetro 'lang' en la URL
         interceptor.setParamName("lang");
         return interceptor;
     }
